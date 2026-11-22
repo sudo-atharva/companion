@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { IpcRenderer } from 'electron';
 
 import { NotificationService } from './notification.service';
+import { createWebIpc } from './web-ipc';
 
 @Injectable({
   providedIn: 'root',
@@ -13,11 +14,8 @@ export class ElectronService {
     if (window.require) {
       this.ipcRenderer = window.require('electron').ipcRenderer;
     } else {
-      this.notificationService.error(
-        "Can't load electron library",
-        'Please restart your system and open a new issue on GitHub if this issue persists.',
-        true,
-      );
+      // Companion web version (browser): same messages, answered in the page
+      this.ipcRenderer = createWebIpc() as unknown as IpcRenderer;
     }
   }
 

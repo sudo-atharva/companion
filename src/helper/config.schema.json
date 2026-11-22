@@ -523,6 +523,28 @@
           "type": "string",
           "pattern": "^/(.*)$",
           "default": "/"
+        },
+        "weatherCity": {
+          "type": "string",
+          "default": ""
+        },
+        "deck": {
+          "description": "Companion Deck: custom shortcut buttons on the touchscreen. Missing = default buttons.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "title": "DeckButton",
+            "required": ["label", "icon", "color", "type", "value", "confirm"],
+            "properties": {
+              "label": { "type": "string" },
+              "icon": { "type": "string" },
+              "color": { "type": "string" },
+              "type": { "type": "string", "enum": ["gcode", "psu", "http"] },
+              "value": { "type": "string" },
+              "confirm": { "type": "boolean" }
+            },
+            "additionalProperties": false
+          }
         }
       },
       "additionalProperties": false

@@ -1,62 +1,41 @@
+// Companion look: same cards as the dashboard (rounded, --background-2, green icons)
 .main-menu {
   display: block;
   width: 100%;
-  height: 58vh;
+  height: 56vh;
 
   &__heading {
     display: block;
     text-align: center;
     font-size: 5vw;
-    font-weight: 500;
-    margin-top: 4vh;
     font-family: Arvo, sans-serif;
-
-    &__dot {
-      color: var(--primary);
-      opacity: 1;
-      animation: breathe 5s ease-in-out infinite alternate;
-    }
   }
 
   &__options {
-    margin: auto;
-    width: 90vw;
-
-    & td {
-      width: 29.66vw;
-      display: inline-block;
-      text-align: center;
-      font-weight: 500;
-    }
+    margin: 2vh 3vw 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3vw;
   }
 
-  &__option-icon {
-    display: block;
-    padding-bottom: 4vh;
-    margin: auto;
-
-    &__1 {
-      height: 25vh;
-      margin-bottom: -1.3vh;
-    }
-
-    &__2 {
-      height: 22vh;
-    }
-
-    &__3 {
-      height: 19vh;
-      margin-bottom: 1.6vh;
-    }
-  }
-}
-
-@keyframes breathe {
-  0% {
-    opacity: 1;
+  &__card {
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2vh;
+    border-radius: 3vw;
+    background-color: var(--background-2);
+    font-size: 3.4vw;
+    font-weight: 500;
+    text-transform: capitalize;
+    overflow: hidden;
+    position: relative;
   }
 
-  100% {
-    opacity: 0.5;
+  &__icon {
+    font-size: 9vw;
+    color: var(--primary);
   }
 }

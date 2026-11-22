@@ -1,0 +1,342 @@
+// 480x320 (1vw = 4.8px, 1vh = 3.2px), tap-only, buttons >= 60px.
+// Bottom-left 60x60 belongs to the global home button.
+.music {
+  position: relative;
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 5vh 4vw 3vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: #fff;
+
+  // live poster: static blur (no GPU on the Pi 3, so it only fades between songs and never moves)
+  &__poster {
+    position: absolute;
+    inset: -10%;
+    background-size: cover;
+    background-position: center;
+    filter: blur(28px) saturate(1.4);
+    animation: music-fade 0.8s ease;
+  }
+
+  &__shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(0 0 0 / 25%), rgb(0 0 0 / 60%));
+  }
+
+  &__main,
+  &__bottom,
+  &__message,
+  &__idle,
+  &__error {
+    position: relative; // above the poster
+  }
+
+  &__message {
+    margin: auto;
+    width: 80%;
+    text-align: center;
+    font-size: 3.4vw;
+  }
+
+  &__error {
+    font-size: 2.4vw;
+    color: #ffd27a;
+    text-align: center;
+  }
+
+  &__main {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    gap: 4vw;
+  }
+
+  &__art {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+  }
+
+  &__cover {
+    width: 62vh;
+    height: 62vh;
+    border-radius: 2vw;
+    object-fit: cover;
+    box-shadow: 0 2vh 6vh rgb(0 0 0 / 50%);
+  }
+
+  &__side {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5vh;
+  }
+
+  &__title,
+  &__artist {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__title {
+    font-family: Arvo, sans-serif;
+    font-size: 5.4vw;
+    line-height: 1.15;
+  }
+
+  &__artist {
+    font-size: 3.2vw;
+    opacity: 0.8;
+  }
+
+  &__lyrics {
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.8vh;
+    overflow: hidden;
+  }
+
+  &__lyric {
+    font-size: 2.8vw;
+    line-height: 1.25;
+    opacity: 0.45;
+    transition:
+      opacity 0.3s,
+      font-size 0.3s;
+
+    &--current {
+      font-size: 3.8vw;
+      font-weight: 500;
+      opacity: 1;
+    }
+  }
+
+  &__progress {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6vh;
+  }
+
+  &__bar {
+    display: block;
+    height: 1.2vh;
+    border-radius: 1vh;
+    background-color: rgb(255 255 255 / 25%);
+    overflow: hidden;
+
+    &-fill {
+      display: block;
+      height: 100%;
+      background-color: #fff;
+    }
+  }
+
+  &__times {
+    display: flex;
+    justify-content: space-between;
+    font-size: 2.3vw;
+    opacity: 0.75;
+  }
+
+  &__controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1vh;
+  }
+
+  &__button {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 5vw;
+    overflow: hidden;
+    position: relative;
+
+    &--main {
+      width: 72px;
+      height: 72px;
+      background-color: #fff;
+      color: #111;
+      font-size: 5.6vw;
+    }
+  }
+
+  &__bottom {
+    height: 60px;
+    margin-top: 2vh;
+    padding-left: calc(2vw + 64px); // home button
+    display: flex;
+    align-items: center;
+    gap: 1.5vw;
+  }
+
+  &__chip {
+    min-width: 60px;
+    height: 60px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5vw;
+    border-radius: 30px;
+    background-color: rgb(255 255 255 / 14%);
+    font-size: 3.2vw;
+    overflow: hidden;
+    position: relative;
+
+    &--text {
+      padding: 0 3vw;
+      font-size: 2.8vw;
+    }
+
+    &--on {
+      background-color: #fff;
+      color: #111;
+    }
+
+    &--device {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  &__device {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__level {
+    min-width: 8vw;
+    text-align: center;
+    font-size: 2.6vw;
+  }
+
+  // ---- library list: tabs / 3 rows / paging ----
+  &__list {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    margin: -3vh 0 -1vh; // use the full height: 3 rows + tabs + paging have to fit in 320px
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .music__bottom {
+      margin-top: 0;
+    }
+  }
+
+  &__tabs {
+    display: flex;
+    gap: 1.5vw;
+
+    .music__chip {
+      flex: 1;
+      height: 54px;
+      padding: 0 1vw;
+      font-size: 2.5vw;
+    }
+  }
+
+  &__rows {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  &__note {
+    text-align: center;
+    font-size: 3vw;
+  }
+
+  &__row {
+    height: 58px;
+    flex: 0 0 58px;
+    box-sizing: border-box;
+    padding: 0 2vw 0 1vw;
+    display: flex;
+    align-items: center;
+    gap: 2.5vw;
+    border-radius: 2vw;
+    background-color: rgb(255 255 255 / 10%);
+    overflow: hidden;
+    position: relative;
+
+    &-text {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    &-title,
+    &-sub {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &-title {
+      font-size: 3vw;
+    }
+
+    &-sub {
+      font-size: 2.4vw;
+      opacity: 0.7;
+    }
+
+    &-play {
+      font-size: 3vw;
+      opacity: 0.8;
+    }
+  }
+
+  &__thumb {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    border-radius: 1vw;
+    object-fit: cover;
+    background-color: rgb(255 255 255 / 10%);
+  }
+
+  &__spacer {
+    flex: 1;
+  }
+
+  &__idle {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+  }
+
+  &__devices {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2vw;
+  }
+}
+
+@keyframes music-fade {
+  from {
+    opacity: 0;
+  }
+}

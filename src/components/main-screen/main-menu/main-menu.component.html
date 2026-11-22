@@ -1,24 +1,23 @@
 <div class="main-menu">
   <app-top-bar>
     <left-text>{{ now | date: 'HH:mm' }}</left-text>
-    <span class="main-menu__heading">OctoDash<span class="main-menu__heading__dot">.</span></span>
+    <span class="main-menu__heading" i18n="@@companion-printer">Printer</span>
   </app-top-bar>
-  <table class="main-menu__options">
-    <tr>
-      <td routerLink="/files" matRipple [matRippleUnbounded]="false" [matRippleCentered]="true">
-        <img src="assets/folder.svg" class="main-menu__option-icon main-menu__option-icon__1" />
-        <ng-container i18n="@@menu-files">files</ng-container>
-      </td>
-      <td routerLink="/filament" matRipple [matRippleUnbounded]="false" [matRippleCentered]="true">
-        <img src="assets/filament.svg" class="main-menu__option-icon main-menu__option-icon__2" />
-        <ng-container i18n="@@menu-filament">filament</ng-container>
-      </td>
-      <td routerLink="/control" matRipple [matRippleUnbounded]="false" [matRippleCentered]="true">
-        <img src="assets/control.svg" class="main-menu__option-icon main-menu__option-icon__3" />
-        <ng-container i18n="@@menu-control">control</ng-container>
-      </td>
-    </tr>
-  </table>
+  <!-- Companion look: three cards with green icons -->
+  <div class="main-menu__options">
+    <div class="main-menu__card" routerLink="/files" matRipple>
+      <fa-icon icon="folder-open" class="main-menu__icon"></fa-icon>
+      <ng-container i18n="@@menu-files">files</ng-container>
+    </div>
+    <div class="main-menu__card" routerLink="/filament" matRipple>
+      <fa-icon icon="compact-disc" class="main-menu__icon"></fa-icon>
+      <ng-container i18n="@@menu-filament">filament</ng-container>
+    </div>
+    <div class="main-menu__card" routerLink="/control" matRipple>
+      <fa-icon icon="up-down-left-right" class="main-menu__icon"></fa-icon>
+      <ng-container i18n="@@menu-control">control</ng-container>
+    </div>
+  </div>
 </div>
 
 <app-settings-icon></app-settings-icon>

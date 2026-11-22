@@ -1,0 +1,63 @@
+<div class="screen-test">
+  @switch (step) {
+    @case ('colors') {
+      <div class="screen-test__fill" [style.background-color]="colors[colorIndex]" (click)="nextColor()">
+        <span class="screen-test__hint" i18n="@@screen-test-colors"
+          >Screen test {{ colorIndex + 1 }}/{{ colors.length }}: check for dead pixels, then tap</span
+        >
+        <span class="screen-test__skip" (click)="$event.stopPropagation(); skip()" i18n="@@skip">Skip</span>
+      </div>
+    }
+    @case ('waiting') {
+      <span class="screen-test__center loading-dots" i18n="@@please-wait">please wait</span>
+    }
+    @case ('calibrate') {
+      <div class="screen-test__fill" (pointerdown)="tapTarget($event)">
+        @for (target of targets; track $index) {
+          <span
+            class="screen-test__target"
+            [class.screen-test__target--active]="$index === points.length"
+            [class.screen-test__target--done]="$index < points.length"
+            [style.left.%]="target[0] * 100"
+            [style.top.%]="target[1] * 100"></span>
+        }
+        <span class="screen-test__center">
+          <ng-container i18n="@@calibrate-tap">Tap the centre of the green cross</ng-container>
+          @if (message) {
+            <span class="screen-test__error">{{ message }}</span>
+          }
+        </span>
+      </div>
+    }
+    @case ('test') {
+      <div class="screen-test__fill" (pointerdown)="draw($event)" (pointermove)="draw($event)">
+        @for (dot of dots; track $index) {
+          <span class="screen-test__dot" [style.left.px]="dot.x" [style.top.px]="dot.y"></span>
+        }
+        <span class="screen-test__center">
+          <ng-container i18n="@@calibrate-test">Draw on the screen. Do dots follow your finger?</ng-container>
+          <span class="screen-test__countdown" i18n="@@calibrate-revert">Reverting in {{ secondsLeft }} s</span>
+          <span class="screen-test__buttons">
+            <span class="screen-test__button" (pointerdown)="$event.stopPropagation(); save()" i18n="@@save">Save</span>
+            <span
+              class="screen-test__button screen-test__button--secondary"
+              (pointerdown)="$event.stopPropagation(); startCalibration()"
+              i18n="@@redo"
+              >Redo</span
+            >
+          </span>
+        </span>
+      </div>
+    }
+    @case ('error') {
+      <span class="screen-test__center">
+        <ng-container i18n="@@calibration-unavailable">Touch calibration not available</ng-container>
+        <span class="screen-test__error">{{ message }}</span>
+        <span class="screen-test__buttons">
+          <span class="screen-test__button" (click)="startCalibration()" i18n="@@retry">Retry</span>
+          <span class="screen-test__button screen-test__button--secondary" (click)="skip()" i18n="@@skip">Skip</span>
+        </span>
+      </span>
+    }
+  }
+</div>

@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -29,6 +30,12 @@ if (!dev) {
 app.disableHardwareAcceleration();
 
 app.commandLine.appendSwitch('touch-events', 'enabled');
+
+// Dev aid: an empty file "remote-debugging" next to the config opens Chrome DevTools on 127.0.0.1:9222
+// (reach it through an SSH tunnel). Off unless that file exists.
+if (fs.existsSync(path.join(app.getPath('userData'), 'remote-debugging'))) {
+  app.commandLine.appendSwitch('remote-debugging-port', '9222');
+}
 
 function createWindow() {
   // if (!dev) {

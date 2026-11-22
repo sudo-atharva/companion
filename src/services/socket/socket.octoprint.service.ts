@@ -178,6 +178,8 @@ export class OctoPrintSocketService implements SocketService {
       next: message => {
         clearTimeout(this.socketDeadTimeout);
         this.socketDeadTimeout = setTimeout(() => {
+          // Companion: with the printer off OctoPrint goes quiet; that is not a dead connection
+          if (this.printerStatus.status === PrinterState.closed) return;
           this.printerStatus.status = PrinterState.socketDead;
           this.printerStatusSubject.next(this.printerStatus);
         }, 30000);

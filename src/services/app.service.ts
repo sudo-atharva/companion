@@ -22,7 +22,8 @@ export class AppService {
   };
 
   public updateAvailable = false;
-  public dev = !!process.env.APP_DEV;
+  public screenTestVisible = false;
+  public dev = typeof process !== 'undefined' && !!process.env.APP_DEV; // no `process` in the web version
 
   public constructor(
     private configService: ConfigService,

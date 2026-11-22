@@ -1,0 +1,72 @@
+// Same tiles as Deck: 3 x 2 on 480x320, home button bottom-left (the 6th slot stays free for it).
+.csettings {
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 3vh 3vw;
+
+  &__grid {
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 2vw;
+    padding-bottom: 0;
+  }
+
+  &__tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1vh;
+    padding: 0 2vw;
+    border-radius: 3vw;
+    background-color: var(--background-2);
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+
+    // the home button lives in the bottom-left corner: first tile of row 2 moves one slot right
+    &:nth-child(4) {
+      grid-column: 2;
+    }
+
+    &--off .csettings__icon {
+      color: var(--background-3);
+    }
+
+    &--armed {
+      background-color: var(--warn);
+    }
+
+    &--disabled {
+      opacity: 0.4;
+    }
+
+    &--info {
+      background-color: transparent;
+      border: 2px solid var(--background-2);
+    }
+  }
+
+  &__icon {
+    font-size: 7vw;
+    color: var(--primary);
+  }
+
+  &__label {
+    font-size: 2.9vw;
+  }
+
+  &__value {
+    font-size: 3.4vw;
+    font-weight: 500;
+
+    &--small {
+      font-size: 2.3vw;
+      font-weight: normal;
+      opacity: 0.8;
+      word-break: break-all;
+    }
+  }
+}

@@ -3,7 +3,7 @@
   [nextButton]="{ text: 'sort', icon: 'arrow-up-short-wide' }"
   (onBack)="goToMainScreen()"
   (onNext)="openSorting()">
-  <img src="assets/folder.svg" class="top-bar__center-icon" />
+  <span class="files__title" i18n="@@menu-files">files</span>
 </app-top-bar>
 
 <div class="breadcrumbs">
@@ -23,9 +23,11 @@
 }
 
 @if (loading === 0) {
-  <div class="files">
+  <div class="files" #fileList>
     @if (!directory || (directory.files?.length === 0 && directory.folders?.length === 0)) {
-      <div class="files__error">can't load files ...</div>
+      <div class="files__error" i18n="@@files-empty">
+        No files. Upload G-code in OctoPrint, or switch the printer on for its SD card.
+      </div>
     } @else {
       <div>
         @if (currentFolder !== homeFolder && currentFolder !== '') {
@@ -34,14 +36,14 @@
               (click)="openFolder(currentFolder.substr(0, currentFolder.lastIndexOf('/')))"
               matRipple
               [matRippleUnbounded]="false">
-              <img src="assets/folder.svg" class="files__icon" />
+              <fa-icon icon="folder" class="files__icon files__icon--folder"></fa-icon>
               <span class="files__name">..</span>
             </div>
           </div>
         }
         @for (folder of directory.folders; track folder) {
           <div (click)="openFolder(folder.path)" matRipple [matRippleUnbounded]="false" class="files__object">
-            <img src="assets/folder.svg" class="files__icon" />
+            <fa-icon icon="folder" class="files__icon files__icon--folder"></fa-icon>
             <div class="files__info">
               <span class="files__info-value">
                 {{ folder.size }}
@@ -62,7 +64,7 @@
             matRipple
             [matRippleUnbounded]="false"
             class="files__object"
-            [ngClass]="[file.successful]">
+            [ngClass]="file.successful ?? ''">
             <img [src]="file.thumbnail$ | async" class="files__icon" />
             <div class="files__info">
               <span class="files__info-value">
@@ -89,57 +91,52 @@
   </div>
 }
 
+@if (loading === 0) {
+  <div class="files__paging">
+    <span class="files__page" matRipple (click)="scrollList(-1)"><fa-icon icon="caret-up"></fa-icon></span>
+    <span class="files__page" matRipple (click)="scrollList(1)"><fa-icon icon="caret-down"></fa-icon></span>
+  </div>
+}
 <div class="file" id="fileDetailView" (click)="closeDetails()">
   @if (fileDetail && fileDetail.name !== 'error') {
+    <!-- Companion look: thumbnail + facts side by side, labelled pill buttons (delete needs 2 taps) -->
     <div class="file__wrapper" (click)="stopPropagation($event)">
-      <span class="file__name">{{ fileDetail.name }}</span>
-      <span class="file__directory">{{ fileDetail.path }}</span>
-      @if (fileDetail.hasOwnProperty('date')) {
-        <span class="file__creation-date">{{ fileDetail.date }}</span>
-      }
-      <img [src]="fileDetail.thumbnail$ | async" class="file__render" />
-      <table class="file__details">
-        <tr>
-          <td>{{ fileDetail.size }}<span class="file__details-name" i18n="@@files-mb-3">mb</span></td>
+      <div class="file__top">
+        <img [src]="fileDetail.thumbnail$ | async" class="file__render" alt="" />
+        <div class="file__facts">
+          <span class="file__name">{{ fileDetail.name }}</span>
           @if (fileDetail.hasOwnProperty('printTime')) {
-            <td>{{ fileDetail.printTime }}<span class="file__details-name" i18n="@@files-h-2">h</span></td>
+            <span class="file__fact"><fa-icon icon="clock"></fa-icon>{{ fileDetail.printTime }} h</span>
           }
           @if (fileDetail.hasOwnProperty('filamentWeight')) {
-            <td>{{ fileDetail.filamentWeight }}<span class="file__details-name" i18n="@@files-g-2">g</span></td>
+            <span class="file__fact"><fa-icon icon="weight-hanging"></fa-icon>{{ fileDetail.filamentWeight }} g</span>
           }
-        </tr>
-      </table>
-      <table class="file__actions">
-        <tr>
-          <td>
-            <fa-icon
-              icon="upload"
-              class="file__actions-icon"
-              (click)="loadFile(fileDetail.path)"
-              matRipple
-              [matRippleUnbounded]="true"
-              [matRippleCentered]="true" />
-          </td>
-          <td>
-            <fa-icon
-              icon="print"
-              class="file__actions-icon file__actions-icon-large"
-              (click)="printFile(fileDetail.path)"
-              matRipple
-              [matRippleUnbounded]="true"
-              [matRippleCentered]="true" />
-          </td>
-          <td>
-            <fa-icon
-              icon="trash-can"
-              class="file__actions-icon"
-              (click)="deleteFile(fileDetail.path)"
-              matRipple
-              [matRippleUnbounded]="true"
-              [matRippleCentered]="true" />
-          </td>
-        </tr>
-      </table>
+          <span class="file__fact"><fa-icon icon="file"></fa-icon>{{ fileDetail.size }} MB</span>
+          @if (fileDetail.hasOwnProperty('date')) {
+            <span class="file__fact file__fact--dim">{{ fileDetail.date }}</span>
+          }
+        </div>
+      </div>
+      <div class="file__buttons">
+        <span class="file__button" matRipple (click)="loadFile(fileDetail.path)">
+          <fa-icon icon="upload"></fa-icon><ng-container i18n="@@files-load">Load</ng-container>
+        </span>
+        <span class="file__button file__button--print" matRipple (click)="printFile(fileDetail.path)">
+          <fa-icon icon="print"></fa-icon><ng-container i18n="@@files-print">Print</ng-container>
+        </span>
+        <span
+          class="file__button file__button--delete"
+          [class.file__button--armed]="confirmDelete"
+          matRipple
+          (click)="deleteFile(fileDetail.path)">
+          <fa-icon icon="trash-can"></fa-icon>
+          @if (confirmDelete) {
+            <ng-container i18n="@@companion-tap-again">Tap again</ng-container>
+          } @else {
+            <ng-container i18n="@@files-delete">Delete</ng-container>
+          }
+        </span>
+      </div>
     </div>
   }
   @if (!fileDetail) {

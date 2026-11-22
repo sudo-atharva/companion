@@ -99,6 +99,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
   }
 
+  public openScreenTest(): void {
+    this.overwriteNoSave = true;
+    this.hideSettings();
+    this.service.screenTestVisible = true;
+  }
+
   public stopPropagation(event: Event): void {
     event.stopPropagation();
   }

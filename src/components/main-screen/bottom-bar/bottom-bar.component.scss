@@ -1,11 +1,14 @@
 .bottom-bar {
   position: absolute;
-  bottom: 2.5vh;
-  left: 2vw;
-  width: calc(100% - 5.6vw);
+  bottom: 3vh;
+  left: calc(2vw + 64px); // Companion home button sits in the bottom-left corner
+  width: calc(100% - 2vw - 64px - 3vw);
 
   td {
-    font-size: 4vw;
+    height: 60px;
+    font-size: 3vw;
+    vertical-align: middle;
+    opacity: 0.75;
   }
 
   &__printer-name {

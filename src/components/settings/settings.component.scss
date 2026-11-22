@@ -465,3 +465,59 @@
     left: 60vw;
   }
 }
+
+// ---- Companion look: wide card, Arvo headings, menu rows as tap pills, green save ----
+.settings {
+  &-container {
+    top: 5vh;
+    left: 5vw;
+    width: 90vw;
+    height: 90vh;
+    border-radius: 3vw;
+    background-color: var(--background-2);
+  }
+
+  &__heading {
+    padding: 2vh 0;
+    font-family: Arvo, sans-serif;
+    font-weight: normal;
+    text-transform: capitalize;
+  }
+
+  &__content {
+    width: 90vw;
+    box-sizing: border-box;
+    padding: 1vh 4vw;
+  }
+
+  &__list {
+    width: 100%;
+    padding: 0;
+  }
+
+  &__list li {
+    margin-bottom: 1vh;
+    padding: 0 3vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 44px;
+    border-radius: 26px;
+    background-color: var(--background-3);
+    text-transform: capitalize;
+  }
+
+  &__save {
+    width: 40%;
+    margin: 1.5vh auto;
+    line-height: 48px;
+    border-radius: 26px;
+    background-color: var(--primary);
+    text-transform: capitalize;
+  }
+
+  &__made {
+    margin-top: 1vh;
+    font-size: 2vw;
+  }
+}

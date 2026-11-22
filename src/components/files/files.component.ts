@@ -1,5 +1,5 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import * as _ from 'lodash-es';
 import { AnimationOptions } from 'ngx-lottie';
@@ -17,6 +17,8 @@ import { NotificationService } from '../../services/notification.service';
   standalone: false,
 })
 export class FilesComponent {
+  @ViewChild('fileList') private fileList: ElementRef<HTMLElement>;
+
   public currentFolder: string;
   public homeFolder = '/';
   public directory: Directory;
@@ -36,6 +38,7 @@ export class FilesComponent {
     private notificationService: NotificationService,
     private router: Router,
     private configService: ConfigService,
+    private http: HttpClient,
   ) {
     this.showLoader();
     this.directory = { files: [], folders: [] };
@@ -149,14 +152,50 @@ export class FilesComponent {
     }, 300);
   }
 
+  // Companion: the plugin prints right away, or with the printer off switches the plug on, connects and then prints
   public printFile(filePath: string): void {
-    this.filesService.printFile(filePath);
-    setTimeout((): void => {
-      this.router.navigate(['/main-screen']);
-    }, 550);
+    this.http
+      .post<{
+        state: 'printing' | 'poweringOn' | 'busy';
+      }>(
+        this.configService.getApiURL('plugin/companion'),
+        { command: 'printWhenReady', path: filePath },
+        this.configService.getHTTPHeaders(),
+      )
+      .subscribe({
+        next: ({ state }) => {
+          if (state === 'poweringOn') {
+            this.notificationService.info(
+              $localize`:@@print-powering-on:Switching the printer on`,
+              $localize`:@@print-powering-on-message:The print starts as soon as the printer is ready.`,
+            );
+            this.router.navigate(['/home']);
+          } else {
+            setTimeout((): void => {
+              this.router.navigate(['/main-screen']);
+            }, 550);
+          }
+        },
+        error: () => {
+          // no Companion plugin: OctoDash's own way (needs the printer connected)
+          this.filesService.printFile(filePath);
+          setTimeout((): void => {
+            this.router.navigate(['/main-screen']);
+          }, 550);
+        },
+      });
   }
 
+  public confirmDelete = false;
+
+  // two taps: a stray touch must not delete a file
   public deleteFile(filePath: string): void {
+    if (!this.confirmDelete) {
+      this.confirmDelete = true;
+      setTimeout(() => (this.confirmDelete = false), 3000);
+      return;
+    }
+    this.confirmDelete = false;
     this.filesService.deleteFile(filePath);
     setTimeout((): void => {
       this.closeDetails();
@@ -174,6 +213,12 @@ export class FilesComponent {
 
   private showLoader(): void {
     this.loading = Date.now();
+  }
+
+  // tap-only paging (Companion): ▲ ▼ move the list by about one screen of rows
+  public scrollList(direction: 1 | -1): void {
+    const list = this.fileList?.nativeElement;
+    list?.scrollBy({ top: direction * list.clientHeight * 0.8, behavior: 'smooth' });
   }
 
   public goToMainScreen(): void {

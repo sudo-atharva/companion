@@ -1,251 +1,166 @@
 <app-top-bar [backButton]="true" (onBack)="goToMainScreen()">
-  <img src="assets/control.svg" class="top-bar__center-icon" />
+  <span class="control__title" i18n="@@menu-control">control</span>
 </app-top-bar>
 
+<!-- Companion look: round jog buttons in a grid, step sizes as pills, temperatures as cards -->
 <div class="control">
-  <div class="control__jog">
-    <div class="control__jog-arrows">
-      <div class="control__jog-arrows__XY">
-        <div class="control__jog-arrows__XY__wrapper">
-          <div class="icon-wrapper up">
-            <fa-icon
-              icon="angle-up"
-              class="control__icon"
-              (click)="moveAxis('y', '-')"
-              matRipple
-              [matRippleUnbounded]="true"
-              [matRippleCentered]="true"></fa-icon>
-          </div>
-          <div class="icon-wrapper left">
-            <fa-icon
-              icon="angle-left"
-              class="control__icon"
-              (click)="moveAxis('x', '-')"
-              matRipple
-              [matRippleUnbounded]="true"
-              [matRippleCentered]="true"></fa-icon>
-          </div>
-          <div class="icon-wrapper right">
-            <fa-icon
-              icon="angle-right"
-              class="control__icon"
-              (click)="moveAxis('x', '+')"
-              matRipple
-              [matRippleUnbounded]="true"
-              [matRippleCentered]="true"></fa-icon>
-          </div>
-          <div class="icon-wrapper down">
-            <fa-icon
-              icon="angle-down"
-              class="control__icon"
-              (click)="moveAxis('y', '+')"
-              matRipple
-              [matRippleUnbounded]="true"
-              [matRippleCentered]="true"></fa-icon>
-          </div>
-        </div>
-        <span class="control__heading">X / Y</span>
-      </div>
+  <div class="control__pad">
+    <div class="control__xy">
+      <span class="control__btn control__btn--up" matRipple (click)="moveAxis('y', '-')">
+        <fa-icon icon="angle-up"></fa-icon>
+      </span>
+      <span class="control__btn control__btn--left" matRipple (click)="moveAxis('x', '-')">
+        <fa-icon icon="angle-left"></fa-icon>
+      </span>
+      <span class="control__btn control__btn--right" matRipple (click)="moveAxis('x', '+')">
+        <fa-icon icon="angle-right"></fa-icon>
+      </span>
+      <span class="control__btn control__btn--down" matRipple (click)="moveAxis('y', '+')">
+        <fa-icon icon="angle-down"></fa-icon>
+      </span>
+      <span class="control__label control__label--xy">X / Y</span>
+    </div>
 
-      <div class="control__jog-arrows--vertical">
-        <div class="control__jog-arrows--vertical__wrapper">
-          <div class="icon-wrapper up">
-            <fa-icon
-              icon="caret-up"
-              class="control__icon"
-              (click)="moveAxis('z', '+')"
-              matRipple
-              [matRippleUnbounded]="true"
-              [matRippleCentered]="true"></fa-icon>
-          </div>
-          <div class="icon-wrapper down">
-            <fa-icon
-              icon="caret-down"
-              class="control__icon"
-              (click)="moveAxis('z', '-')"
-              matRipple
-              [matRippleUnbounded]="true"
-              [matRippleCentered]="true"></fa-icon>
-          </div>
-        </div>
-        <span class="control__heading">Z</span>
-      </div>
+    <div class="control__column">
+      <span class="control__btn" matRipple (click)="moveAxis('z', '+')"><fa-icon icon="caret-up"></fa-icon></span>
+      <span class="control__btn" matRipple (click)="moveAxis('z', '-')"><fa-icon icon="caret-down"></fa-icon></span>
+      <span class="control__label">Z</span>
+    </div>
 
-      @if (showExtruder) {
-        <div class="control__jog-arrows--vertical">
-          <div class="control__jog-arrows--vertical__wrapper">
-            <div class="icon-wrapper extruder-controls up">
-              <fa-icon
-                icon="circle-chevron-up"
-                class="control__icon"
-                (click)="extrude('-')"
-                matRipple
-                [matRippleUnbounded]="true"
-                [matRippleCentered]="true"></fa-icon>
+    @if (showExtruder) {
+      <div class="control__column">
+        <span class="control__btn" matRipple (click)="extrude('-')"><fa-icon icon="circle-chevron-up"></fa-icon></span>
+        <span class="control__btn" matRipple (click)="extrude('+')"
+          ><fa-icon icon="circle-chevron-down"></fa-icon
+        ></span>
+        <span class="control__label">E</span>
+      </div>
+    }
+
+    <div class="control__tools">
+      @if (!printerProfile?.extruder.sharedNozzle) {
+        <ngContainer>
+          @for (tool of filteredToolsByProfile(); track extruderTrackBy(i, tool); let i = $index) {
+            <div
+              class="control__tools__item"
+              [ngClass]="{ 'control__tools__field-active': selectedTool === i }"
+              (click)="selectedTool === i ? quickControlModalService.showQuickControlHotend(selectedTool) : setTool(i)"
+              matRipple
+              [matRippleUnbounded]="false">
+              <app-hotend-icon class="control__tools__item-icon" [tool]="printerProfile?.extruder.count > 1 ? i : -1" />
+              <div
+                class="control__tools__item-value"
+                [ngClass]="{
+                  'control__tools__item-no-value-set': tool.set === 0,
+                }">
+                <span class="control__tools__item-value-actual">
+                  {{ tool.current }}<span class="control__tools__item-value-unit">°C</span>
+                </span>
+                @if (tool.set) {
+                  <span class="control__tools__item-value-set">
+                    / {{ tool.set }}<span class="control__tools__item-value-unit">°C</span>
+                  </span>
+                }
+              </div>
             </div>
-            <div class="icon-wrapper extruder-controls down">
-              <fa-icon
-                icon="circle-chevron-down"
-                class="control__icon"
-                (click)="extrude('+')"
-                matRipple
-                [matRippleUnbounded]="true"
-                [matRippleCentered]="true"></fa-icon>
+          }
+          <div class="control__tools__bottom">
+            <div
+              class="control__tools__item"
+              (click)="quickControlModalService.showQuickControlHeatbed()"
+              matRipple
+              [matRippleUnbounded]="false">
+              <!-- XXX: Add functionality (split quick control out into its own component) -->
+              <img class="control__tools__item-icon" src="assets/heat-bed.svg" />
+              <div
+                class="control__tools__item-value"
+                [ngClass]="{ 'control__tools__item-no-value-set': printerStatus.bed.set === 0 }">
+                <span class="control__tools__item-value-actual">
+                  {{ printerStatus.bed.current }}<span class="control__tools__item-value-unit">°C</span>
+                </span>
+                @if (printerStatus.bed.set) {
+                  <span class="control__tools__item-value-set">
+                    / {{ printerStatus.bed.set }}<span class="control__tools__item-value-unit">°C</span>
+                  </span>
+                }
+              </div>
             </div>
           </div>
-          <span class="control__heading">E</span>
-        </div>
+        </ngContainer>
       }
-    </div>
-
-    <div class="control__distance-wrapper">
-      <table class="control__distance">
-        <tr>
-          <td
-            class="control__distance-field"
-            [ngClass]="{ 'control__distance-field-active': jogDistance === 1 }"
-            (click)="setDistance(1)">
-            1
-          </td>
-          <td
-            class="control__distance-field"
-            [ngClass]="{ 'control__distance-field-active': jogDistance === 5 }"
-            (click)="setDistance(5)">
-            5
-          </td>
-          <td
-            class="control__distance-field"
-            [ngClass]="{ 'control__distance-field-active': jogDistance === 10 }"
-            (click)="setDistance(10)">
-            10
-          </td>
-          <td
-            class="control__distance-field"
-            [ngClass]="{ 'control__distance-field-active': jogDistance === 50 }"
-            (click)="setDistance(50)">
-            50
-          </td>
-          <td
-            class="control__distance-field"
-            [ngClass]="{ 'control__distance-field-active': jogDistance === 100 }"
-            (click)="setDistance(100)">
-            100
-          </td>
-        </tr>
-      </table>
-    </div>
-  </div>
-
-  <div class="control__tools">
-    @if (!printerProfile?.extruder.sharedNozzle) {
-      <ngContainer>
-        @for (tool of filteredToolsByProfile(); track extruderTrackBy(i, tool); let i = $index) {
+      @if (printerProfile?.extruder.sharedNozzle) {
+        <ngContainer>
           <div
             class="control__tools__item"
-            [ngClass]="{ 'control__tools__field-active': selectedTool === i }"
-            (click)="selectedTool === i ? quickControlModalService.showQuickControlHotend(selectedTool) : setTool(i)"
+            (click)="quickControlModalService.showQuickControlHotend(0)"
             matRipple
             [matRippleUnbounded]="false">
-            <app-hotend-icon class="control__tools__item-icon" [tool]="printerProfile?.extruder.count > 1 ? i : -1" />
+            <app-hotend-icon class="control__tools__item-icon" [tool]="-1" />
             <div
               class="control__tools__item-value"
               [ngClass]="{
-                'control__tools__item-no-value-set': tool.set === 0,
+                'control__tools__item-no-value-set': printerStatus.tools[0].set === 0,
               }">
               <span class="control__tools__item-value-actual">
-                {{ tool.current }}<span class="control__tools__item-value-unit">°C</span>
+                {{ printerStatus.tools[0].current }}<span class="control__tools__item-value-unit">°C</span>
               </span>
-              @if (tool.set) {
+              @if (printerStatus.tools[0].set) {
                 <span class="control__tools__item-value-set">
-                  / {{ tool.set }}<span class="control__tools__item-value-unit">°C</span>
+                  / {{ printerStatus.tools[0].set }}<span class="control__tools__item-value-unit">°C</span>
                 </span>
               }
             </div>
           </div>
-        }
-        <div class="control__tools__bottom">
-          <div
-            class="control__tools__item"
-            (click)="quickControlModalService.showQuickControlHeatbed()"
-            matRipple
-            [matRippleUnbounded]="false">
-            <!-- XXX: Add functionality (split quick control out into its own component) -->
-            <img class="control__tools__item-icon" src="assets/heat-bed.svg" />
-            <div
-              class="control__tools__item-value"
-              [ngClass]="{ 'control__tools__item-no-value-set': printerStatus.bed.set === 0 }">
-              <span class="control__tools__item-value-actual">
-                {{ printerStatus.bed.current }}<span class="control__tools__item-value-unit">°C</span>
-              </span>
-              @if (printerStatus.bed.set) {
-                <span class="control__tools__item-value-set">
-                  / {{ printerStatus.bed.set }}<span class="control__tools__item-value-unit">°C</span>
-                </span>
-              }
-            </div>
-          </div>
-        </div>
-      </ngContainer>
-    }
-    @if (printerProfile?.extruder.sharedNozzle) {
-      <ngContainer>
-        <div
-          class="control__tools__item"
-          (click)="quickControlModalService.showQuickControlHotend(0)"
-          matRipple
-          [matRippleUnbounded]="false">
-          <app-hotend-icon class="control__tools__item-icon" [tool]="-1" />
-          <div
-            class="control__tools__item-value"
-            [ngClass]="{
-              'control__tools__item-no-value-set': printerStatus.tools[0].set === 0,
-            }">
-            <span class="control__tools__item-value-actual">
-              {{ printerStatus.tools[0].current }}<span class="control__tools__item-value-unit">°C</span>
-            </span>
-            @if (printerStatus.tools[0].set) {
-              <span class="control__tools__item-value-set">
-                / {{ printerStatus.tools[0].set }}<span class="control__tools__item-value-unit">°C</span>
-              </span>
+          <div class="control__tools__item control__tools__item-tool-changer">
+            @for (tool of filteredToolsByProfile(); track extruderTrackBy(i, tool); let i = $index) {
+              <div
+                class="control__tools__item-tool-changer__item"
+                [ngClass]="{ 'control__tools__field-active': selectedTool === i }"
+                (click)="setTool(i)"
+                matRipple
+                [matRippleUnbounded]="false">
+                <app-hotend-icon [tool]="printerProfile.extruder.count > 1 && i" />
+              </div>
             }
           </div>
-        </div>
-        <div class="control__tools__item control__tools__item-tool-changer">
-          @for (tool of filteredToolsByProfile(); track extruderTrackBy(i, tool); let i = $index) {
+          <div class="control__tools__bottom">
             <div
-              class="control__tools__item-tool-changer__item"
-              [ngClass]="{ 'control__tools__field-active': selectedTool === i }"
-              (click)="setTool(i)"
+              class="control__tools__item"
+              (click)="quickControlModalService.showQuickControlHeatbed()"
               matRipple
               [matRippleUnbounded]="false">
-              <app-hotend-icon [tool]="printerProfile.extruder.count > 1 && i" />
-            </div>
-          }
-        </div>
-        <div class="control__tools__bottom">
-          <div
-            class="control__tools__item"
-            (click)="quickControlModalService.showQuickControlHeatbed()"
-            matRipple
-            [matRippleUnbounded]="false">
-            <!-- XXX: Add functionality (split quick control out into its own component) -->
-            <img class="control__tools__item-icon" src="assets/heat-bed.svg" />
-            <div
-              class="control__tools__item-value"
-              [ngClass]="{ 'control__tools__item-no-value-set': printerStatus.bed.set === 0 }">
-              <span class="control__tools__item-value-actual">
-                {{ printerStatus.bed.current }}<span class="control__tools__item-value-unit">°C</span>
-              </span>
-              @if (printerStatus.bed.set) {
-                <span class="control__tools__item-value-set">
-                  / {{ printerStatus.bed.set }}<span class="control__tools__item-value-unit">°C</span>
+              <!-- XXX: Add functionality (split quick control out into its own component) -->
+              <img class="control__tools__item-icon" src="assets/heat-bed.svg" />
+              <div
+                class="control__tools__item-value"
+                [ngClass]="{ 'control__tools__item-no-value-set': printerStatus.bed.set === 0 }">
+                <span class="control__tools__item-value-actual">
+                  {{ printerStatus.bed.current }}<span class="control__tools__item-value-unit">°C</span>
                 </span>
-              }
+                @if (printerStatus.bed.set) {
+                  <span class="control__tools__item-value-set">
+                    / {{ printerStatus.bed.set }}<span class="control__tools__item-value-unit">°C</span>
+                  </span>
+                }
+              </div>
             </div>
           </div>
-        </div>
-      </ngContainer>
+        </ngContainer>
+      }
+    </div>
+  </div>
+
+  <div class="control__steps">
+    @for (distance of [1, 5, 10, 50, 100]; track distance) {
+      <span
+        class="control__step"
+        [class.control__step--active]="jogDistance === distance"
+        matRipple
+        (click)="setDistance(distance)">
+        {{ distance }}
+      </span>
     }
+    <span class="control__unit">mm</span>
   </div>
 </div>
 

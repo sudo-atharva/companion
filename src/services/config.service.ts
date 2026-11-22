@@ -3,9 +3,27 @@ import { Injectable, NgZone } from '@angular/core';
 import * as _ from 'lodash-es';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
-import { ConfigSchema as Config, CustomAction, URLSplit } from '../model';
+import { ConfigSchema as Config, CustomAction, DeckButton, URLSplit } from '../model';
 import { ElectronService } from './electron.service';
 import { NotificationService } from './notification.service';
+import { csrfHeader } from './web-ipc';
+
+// Deck buttons until the user edits them in the web editor
+export const DEFAULT_DECK: DeckButton[] = [
+  { label: 'Home', icon: 'house', color: '#dcdde1', type: 'gcode', value: 'G28', confirm: false },
+  {
+    label: 'Preheat PLA',
+    icon: 'fire-flame-curved',
+    color: '#e1b12c',
+    type: 'gcode',
+    value: 'M140 S60; M104 S200',
+    confirm: false,
+  },
+  { label: 'Cool down', icon: 'snowflake', color: '#0097e6', type: 'gcode', value: 'M104 S0; M140 S0', confirm: false },
+  { label: 'Level', icon: 'ruler-vertical', color: '#4bae50', type: 'gcode', value: 'G29', confirm: true },
+  { label: 'Motors off', icon: 'gears', color: '#9c88ff', type: 'gcode', value: 'M84', confirm: false },
+  { label: 'Printer off', icon: 'power-off', color: '#e84118', type: 'psu', value: 'off', confirm: true },
+];
 
 interface HttpHeader {
   headers: HttpHeaders;
@@ -63,9 +81,12 @@ export class ConfigService {
   }
 
   public generateHttpHeaders(): void {
+    const auth: Record<string, string> = this.config.octoprint.accessToken
+      ? { 'x-api-key': this.config.octoprint.accessToken }
+      : csrfHeader(); // web version: login session
     this.httpHeaders = {
       headers: new HttpHeaders({
-        'x-api-key': this.config.octoprint.accessToken,
+        ...auth,
         'Cache-Control': 'no-cache',
         Pragma: 'no-cache',
         Expires: '0',
@@ -177,6 +198,14 @@ export class ConfigService {
 
   public getAutomaticScreenSleep(): boolean {
     return this.config.octodash.turnScreenOffWhileSleeping;
+  }
+
+  public getDeck(): DeckButton[] {
+    return this.config?.octodash.deck ?? DEFAULT_DECK;
+  }
+
+  public getWeatherCity(): string {
+    return this.config?.octodash.weatherCity ?? '';
   }
 
   public getAutomaticPrinterPowerOn(): boolean {

@@ -352,3 +352,240 @@
     }
   }
 }
+
+// ---- Companion look: card rows, green folders, tap-only ▲ ▼ paging (no swiping needed) ----
+.files {
+  height: calc(100vh - 25vh - 64px);
+
+  &::before {
+    display: none;
+  }
+
+  &__title {
+    font-family: Arvo, sans-serif;
+    font-size: 4.4vw;
+    text-transform: capitalize;
+  }
+
+  &__object {
+    width: auto;
+    height: 58px;
+    line-height: 58px;
+    margin-bottom: 1.5vh;
+    border-radius: 3vw;
+    background-color: var(--background-2);
+    overflow: hidden;
+
+    &:first-of-type {
+      margin-top: 2vh;
+    }
+
+    &:last-of-type {
+      margin-bottom: 1vh;
+    }
+  }
+
+  &__icon {
+    width: 44px;
+    height: 44px;
+    margin: 7px 2vw 0 1.5vw;
+    border-radius: 2vw;
+    object-fit: cover;
+
+    &--folder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 6vw;
+      color: var(--primary);
+    }
+  }
+
+  &__name {
+    height: 58px;
+    margin-left: 0;
+    font-size: 3vw;
+  }
+
+  &__info {
+    line-height: 58px;
+    padding-right: 2vw;
+    opacity: 0.8;
+
+    &-value {
+      font-size: 2.6vw;
+    }
+  }
+
+  &__paging {
+    position: fixed;
+    right: 3vw;
+    bottom: 3vh;
+    display: flex;
+    gap: 2vw;
+  }
+
+  &__page {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--background-2);
+    font-size: 4vw;
+    overflow: hidden;
+    position: relative;
+  }
+}
+
+.breadcrumbs {
+  margin-top: 1vh;
+  margin-left: 4vw;
+  opacity: 0.7;
+}
+
+// ---- Companion look: file details card ----
+.file__wrapper {
+  left: 5vw;
+  top: 8vh;
+  width: 90vw;
+  height: auto;
+  box-sizing: border-box;
+  padding: 3vh 3vw;
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+  border-radius: 3vw;
+  background-color: var(--background-2);
+}
+
+.file__top {
+  display: flex;
+  gap: 3vw;
+  min-height: 0;
+}
+
+.file__render {
+  width: 34vw;
+  height: 34vw;
+  max-height: 48vh;
+  margin: 0;
+  border-radius: 2vw;
+  object-fit: contain;
+  background-color: var(--background);
+}
+
+.file__facts {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5vh;
+}
+
+.file__name {
+  font-family: Arvo, sans-serif;
+  font-size: 3.6vw;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+  max-height: 3.6vw * 3 * 1.2;
+  overflow: hidden;
+  white-space: normal;
+}
+
+.file__fact {
+  display: flex;
+  align-items: center;
+  gap: 1.5vw;
+  font-size: 3vw;
+
+  fa-icon {
+    width: 3.5vw;
+    color: var(--primary);
+  }
+
+  &--dim {
+    font-size: 2.4vw;
+    opacity: 0.6;
+  }
+}
+
+.file__buttons {
+  display: flex;
+  gap: 2vw;
+}
+
+.file__button {
+  flex: 1;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5vw;
+  border-radius: 28px;
+  background-color: var(--background-3);
+  font-size: 3.2vw;
+  overflow: hidden;
+  position: relative;
+
+  &--print {
+    flex: 1.4;
+    background-color: var(--primary);
+  }
+
+  &--delete {
+    color: #ff8a73;
+  }
+
+  &--armed {
+    background-color: var(--error);
+    color: #fff;
+  }
+}
+
+// ---- Companion look: sort dialog as a card with pill options (selected = green) ----
+.sorting-wrapper {
+  top: 10vh;
+  left: 12vw;
+  width: 76vw;
+  height: auto;
+  box-sizing: border-box;
+  padding: 2vh 3vw 3vh;
+  border-radius: 3vw;
+  background-color: var(--background-2);
+}
+
+.sorting-selection {
+  padding-left: 0;
+
+  td {
+    vertical-align: top;
+  }
+}
+
+.sorting-heading {
+  font-family: Arvo, sans-serif;
+}
+
+.sorting__checkbox-container {
+  height: 40px;
+  margin: 0.8vh 0;
+  padding: 0 3vw;
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
+  background-color: var(--background-3);
+
+  .sorting__checkbox-descriptor {
+    margin: 0;
+  }
+
+  &:has(.sorting__checkbox-checked) {
+    background-color: var(--primary);
+  }
+}
+
+.sorting__checkbox {
+  display: none;
+}

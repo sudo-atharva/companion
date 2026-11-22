@@ -1,0 +1,120 @@
+<div class="dash">
+  <div class="dash__main">
+    @if (isPrinting() && job) {
+      <div class="dash__hero dash__hero--job" matRipple (click)="openPrinter()">
+        <span class="dash__job-file">{{ job.file }}</span>
+        <span class="dash__job-percent">{{ job.progress | number: '1.0-0' }}%</span>
+        <span class="dash__bar"><span class="dash__bar-fill" [style.width.%]="job.progress"></span></span>
+        @if (job.timeLeft) {
+          <span class="dash__job-left">
+            <ng-container i18n="@@companion-time-left">left</ng-container>: {{ job.timeLeft.value }}
+            {{ job.timeLeft.unit }}
+          </span>
+        }
+      </div>
+    } @else if (music?.is_playing) {
+      <div class="dash__hero dash__hero--music" matRipple (click)="openMusic()">
+        @if (musicCover()) {
+          <img class="dash__music-art" [src]="musicCover()" alt="" />
+        }
+        <span class="dash__music-row">
+          <span class="dash__music-text">
+            <span class="dash__music-time">{{ now | date: 'HH:mm' }}</span>
+            <span class="dash__music-title">{{ music.item.name }}</span>
+            <span class="dash__music-artist">{{ musicArtists() }}</span>
+          </span>
+          <span class="dash__music-button" matRipple (click)="toggleMusic($event)">
+            <fa-icon [icon]="music.is_playing ? 'pause' : 'play'"></fa-icon>
+          </span>
+        </span>
+      </div>
+    } @else {
+      <div class="dash__hero">
+        <span class="dash__clock">{{ now | date: 'HH:mm' }}</span>
+        <span class="dash__date">{{ now | date: 'EEE, d MMM' }}</span>
+        @if (weather) {
+          <span class="dash__weather">{{ weather.temperature }}° {{ weather.text }}</span>
+        }
+      </div>
+    }
+
+    <div class="dash__side">
+      <div class="dash__card" matRipple (click)="openPrinter()">
+        <span class="dash__card-title">
+          <fa-icon icon="cube"></fa-icon>
+          <ng-container i18n="@@companion-printer">Printer</ng-container>
+        </span>
+        <span class="dash__card-value" [class.loading-dots]="connecting">{{ printerText() }}</span>
+        @if (isOnline() && printer?.tools?.length) {
+          <span class="dash__card-sub"
+            >{{ printer.tools[0].current | number: '1.0-0' }}° / {{ printer.bed.current | number: '1.0-0' }}°</span
+          >
+        } @else if (connectFailed) {
+          <span class="dash__card-sub dash__card-sub--warn" i18n="@@companion-connect-failed"
+            >No connection. Tap to retry.</span
+          >
+        } @else if (!isConfigured()) {
+          <span class="dash__card-sub" i18n="@@companion-tap-setup">Tap to connect OctoPrint</span>
+        } @else if (!isOnline() && !connecting) {
+          <span class="dash__card-sub" i18n="@@companion-tap-start">Tap to start</span>
+        }
+      </div>
+
+      @if (hasPSUControl()) {
+        <div class="dash__card" matRipple (click)="togglePower()">
+          <span class="dash__card-title">
+            <span class="dash__dot" [class.dash__dot--on]="psuOn" [class.dash__dot--unknown]="psuOn === null"></span>
+            <ng-container i18n="@@companion-power">Power</ng-container>
+          </span>
+          <span class="dash__card-value">
+            @if (psuOn === null) {
+              –
+            } @else if (psuOn) {
+              <ng-container i18n="@@companion-on">On</ng-container>
+            } @else {
+              <ng-container i18n="@@companion-off">Off</ng-container>
+            }
+          </span>
+          @if (energy && psuOn) {
+            <span class="dash__card-sub">
+              {{ energy.watts | number: '1.0-0' }} W ·
+              @if (energy.print_kwh !== null) {
+                <ng-container i18n="@@companion-print-kwh">print</ng-container>
+                {{ energy.print_kwh | number: '1.2-2' }} kWh
+              } @else {
+                <ng-container i18n="@@companion-today-kwh">today</ng-container>
+                {{ energy.kwh_today | number: '1.2-2' }} kWh
+              }
+            </span>
+          }
+          @if (confirmOff) {
+            <span class="dash__card-sub dash__card-sub--warn" i18n="@@companion-tap-again-off"
+              >Tap again to turn off</span
+            >
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <nav class="dash__dock">
+    <span class="dash__app" matRipple (click)="openPrinterApp()">
+      <fa-icon icon="cube"></fa-icon>
+      <span i18n="@@companion-printer">Printer</span>
+    </span>
+    <span class="dash__app" matRipple (click)="openMusic()">
+      <fa-icon icon="music"></fa-icon>
+      <span i18n="@@companion-music">Music</span>
+    </span>
+    @if (isConfigured()) {
+      <span class="dash__app" matRipple (click)="openDeck()">
+        <fa-icon icon="table-cells-large"></fa-icon>
+        <span i18n="@@companion-deck">Deck</span>
+      </span>
+    }
+    <span class="dash__app" matRipple (click)="openSettings()">
+      <fa-icon icon="gear"></fa-icon>
+      <span i18n="@@companion-settings">Settings</span>
+    </span>
+  </nav>
+</div>

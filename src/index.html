@@ -3,15 +3,29 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>OctoDash</title>
+    <title>Companion</title>
     <base href="./" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
   </head>
 
   <body lang="en-US">
     <app-root class="app-root">
-      <img src="assets/icon/icon-main-title.svg" class="splash-screen__icon" />
-      <span class="splash-screen__credits">by UnchartedBull + contributors</span>
+      <!-- first frame of the Companion splash (app-splash), shown while Electron/Angular load -->
+      <svg
+        viewBox="0 0 100 100"
+        style="position: fixed; top: 50%; left: 50%; width: 30vh; height: 30vh; transform: translate(-50%, -50%)">
+        <g fill="#44bd32">
+          <rect x="44" y="6" width="12" height="16" rx="2" transform="rotate(0 50 50)" />
+          <rect x="44" y="6" width="12" height="16" rx="2" transform="rotate(45 50 50)" />
+          <rect x="44" y="6" width="12" height="16" rx="2" transform="rotate(90 50 50)" />
+          <rect x="44" y="6" width="12" height="16" rx="2" transform="rotate(135 50 50)" />
+          <rect x="44" y="6" width="12" height="16" rx="2" transform="rotate(180 50 50)" />
+          <rect x="44" y="6" width="12" height="16" rx="2" transform="rotate(225 50 50)" />
+          <rect x="44" y="6" width="12" height="16" rx="2" transform="rotate(270 50 50)" />
+          <rect x="44" y="6" width="12" height="16" rx="2" transform="rotate(315 50 50)" />
+        </g>
+        <circle cx="50" cy="50" r="30" fill="none" stroke="#44bd32" stroke-width="12" />
+      </svg>
     </app-root>
   </body>
 </html>

@@ -1,0 +1,14 @@
+@if (asleep) {
+  <div class="night" (pointerdown)="wake($event)">
+    <div class="night__clock">
+      <!-- tracked by position + value: a changed digit is a new element, so its flip animation plays -->
+      @for (digit of digits; track $index + digit; let i = $index) {
+        @if (i === 2) {
+          <span class="night__colon">:</span>
+        }
+        <span class="night__card">{{ digit }}</span>
+      }
+    </div>
+    <span class="night__date">{{ now | date: 'EEEE, d MMMM' }}</span>
+  </div>
+}

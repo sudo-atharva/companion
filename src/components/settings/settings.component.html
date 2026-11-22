@@ -333,6 +333,17 @@
               name="defaultDirectory"
               [(ngModel)]="config.octodash.defaultDirectory"
               required />
+
+            <label for="weatherCity" class="settings__input-label" i18n="@@weather-city"
+              >Weather city (shown while the printer is off, empty = hide)</label
+            >
+            <input
+              type="text"
+              id="weatherCity"
+              class="settings__input"
+              name="weatherCity"
+              placeholder="London"
+              [(ngModel)]="config.octodash.weatherCity" />
           </form>
           <br />
           <span class="settings__heading-2" i18n="@@invert-axis-control">Invert Axis Control</span>
@@ -643,6 +654,10 @@
           </p>
           <img src="assets/made-in-berlin.png" class="settings__made-in-berlin" />
           <hr />
+          <p class="settings_reset-button" (click)="openScreenTest()">
+            <span i18n="@@screen-test">Screen test &amp; touch calibration</span>
+            <fa-icon icon="chevron-right"></fa-icon>
+          </p>
           <p class="settings_reset-button" (click)="showReset()">
             <span i18n="@@reset-config">Reset Config</span>
             <fa-icon icon="chevron-right"></fa-icon>

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { filter, take, timeout } from 'rxjs/operators';
 
 import { PrinterState, PrinterStatus } from '../../../model';
 import { ConfigService } from '../../../services/config.service';
@@ -139,6 +139,16 @@ export class PrintControlComponent implements OnInit, OnDestroy {
     if (this.showControls && this.view === ControlView.CANCEL) {
       this.jobService.cancelJob();
       this.hideControlOverlay(event);
+      // Companion: park the head once the cancel is done. X/Y only: homing Z could crash into the print.
+      // Runs on its own (take(1) + timeout), so it finishes even though this view closes when the print ends.
+      this.socketService
+        .getPrinterStatusSubscribable()
+        .pipe(
+          filter(status => status?.status === PrinterState.operational),
+          take(1),
+          timeout(120000),
+        )
+        .subscribe({ next: () => this.printerService.executeGCode('G28 X Y'), error: () => {} });
     }
   }
 

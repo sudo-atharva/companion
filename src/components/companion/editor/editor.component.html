@@ -1,0 +1,249 @@
+<div class="editor">
+  <header class="editor__header">
+    <span class="editor__brand"><span class="editor__c">C</span>ompanion</span>
+    <span class="editor__subtitle" i18n="@@editor-title">Screen editor</span>
+    <span class="editor__spacer"></span>
+    @if (user) {
+      <span class="editor__user">{{ user }}</span>
+    }
+    <a class="editor__link" href="/" i18n="@@editor-open-octoprint">Open OctoPrint</a>
+    <button class="editor__button" (click)="restartScreen()" i18n="@@editor-restart-screen">Restart screen</button>
+  </header>
+
+  <nav class="editor__tabs">
+    <button [class.active]="tab === 'dashboard'" (click)="tab = 'dashboard'" i18n="@@editor-tab-dashboard">
+      Dashboard
+    </button>
+    <button [class.active]="tab === 'deck'" (click)="tab = 'deck'" i18n="@@editor-tab-deck">Deck</button>
+    <button [class.active]="tab === 'screen'" (click)="tab = 'screen'" i18n="@@editor-tab-screen">Screen</button>
+    <button [class.active]="tab === 'setup'" (click)="tab = 'setup'" i18n="@@editor-tab-setup">Setup</button>
+    <button [class.active]="tab === 'printer'" (click)="tab = 'printer'" i18n="@@editor-tab-printer">
+      Printer (OctoDash)
+    </button>
+  </nav>
+
+  <main class="editor__body">
+    <section class="editor__preview">
+      <span class="editor__label" i18n="@@editor-preview">Live preview (3.5" screen)</span>
+      <iframe #preview class="editor__frame" src="./#/home" title="Screen preview"></iframe>
+      <button class="editor__button editor__button--quiet" (click)="refreshPreview()" i18n="@@editor-refresh">
+        Refresh preview
+      </button>
+    </section>
+
+    <section class="editor__panel">
+      @switch (tab) {
+        @case ('dashboard') {
+          <h2 i18n="@@editor-tab-dashboard">Dashboard</h2>
+          <label class="editor__field">
+            <span i18n="@@weather-city">Weather city (shown while the printer is off, empty = hide)</span>
+            <input type="text" [(ngModel)]="config.octodash.weatherCity" placeholder="London" />
+          </label>
+          <p class="editor__hint" i18n="@@editor-dashboard-hint">
+            Big widget shows the clock and weather, and the print progress while printing. Cards: Printer and Power
+            (power appears when a PSU Control compatible plug plugin is installed).
+          </p>
+          <button class="editor__button editor__button--primary" [disabled]="saving" (click)="save()">
+            @if (saving) {
+              <ng-container i18n="@@editor-saving">Saving…</ng-container>
+            } @else {
+              <ng-container i18n="@@editor-save">Save to screen</ng-container>
+            }
+          </button>
+        }
+
+        @case ('deck') {
+          <h2 i18n="@@editor-tab-deck">Deck</h2>
+          <p class="editor__hint" i18n="@@editor-deck-hint">
+            Shortcut buttons on the screen, 6 per page. Icons: any Font Awesome solid name (house, fire, lightbulb, fan,
+            power-off…). G-code: commands separated by ";". HTTP: a URL, or "POST https://…" (e.g. a Home Assistant
+            webhook). Plug: on, off or toggle.
+          </p>
+          @for (button of config.octodash.deck; track button; let i = $index) {
+            <div class="editor__deck-row">
+              <input class="editor__input" [(ngModel)]="button.label" placeholder="Label" aria-label="Label" />
+              <input
+                class="editor__input editor__input--small"
+                [(ngModel)]="button.icon"
+                placeholder="icon"
+                aria-label="Icon" />
+              <input class="editor__color" type="color" [(ngModel)]="button.color" aria-label="Colour" />
+              <select class="editor__input editor__input--small" [(ngModel)]="button.type" aria-label="Action type">
+                <option value="gcode">G-code</option>
+                <option value="psu" i18n="@@editor-deck-plug">Plug</option>
+                <option value="http">HTTP</option>
+              </select>
+              <input
+                class="editor__input editor__input--wide"
+                [(ngModel)]="button.value"
+                [placeholder]="
+                  button.type === 'psu' ? 'on / off / toggle' : button.type === 'http' ? 'POST https://…' : 'G28; M84'
+                "
+                aria-label="Action" />
+              <label class="editor__check editor__check--inline">
+                <input type="checkbox" [(ngModel)]="button.confirm" />
+                <span i18n="@@editor-deck-confirm">2 taps</span>
+              </label>
+              <button class="editor__button" (click)="moveDeckButton(i, -1)" aria-label="Move up">▲</button>
+              <button class="editor__button" (click)="moveDeckButton(i, 1)" aria-label="Move down">▼</button>
+              <button class="editor__button" (click)="removeDeckButton(button)" aria-label="Remove">✕</button>
+            </div>
+          }
+          <div class="editor__form">
+            <button class="editor__button" (click)="addDeckButton()" i18n="@@editor-deck-add">+ Add button</button>
+            <button class="editor__button editor__button--primary" [disabled]="saving" (click)="save()">
+              <ng-container i18n="@@editor-save">Save to screen</ng-container>
+            </button>
+          </div>
+        }
+
+        @case ('screen') {
+          <h2 i18n="@@editor-tab-screen">Screen</h2>
+          <label class="editor__check">
+            <input type="checkbox" [(ngModel)]="config.octodash.turnScreenOffWhileSleeping" />
+            <span i18n="@@editor-sleep"
+              >Night clock after 5 minutes without a tap (black flip clock + date; not while printing)</span
+            >
+          </label>
+          <button class="editor__button editor__button--primary" [disabled]="saving" (click)="save()">
+            <ng-container i18n="@@editor-save">Save to screen</ng-container>
+          </button>
+          <h3 i18n="@@editor-touch">Touch</h3>
+          <p class="editor__hint" i18n="@@editor-touch-hint">
+            Restarts the screen into the colour test and the 4-cross touch calibration. Do it on the screen.
+          </p>
+          <button class="editor__button" (click)="recalibrate()" i18n="@@editor-recalibrate-button">
+            Calibrate touch on the screen
+          </button>
+        }
+
+        @case ('setup') {
+          <h2 i18n="@@editor-tab-setup">Setup</h2>
+          <div class="editor__row">
+            <span class="editor__row-title">OctoPrint</span>
+            <span class="editor__status editor__status--ok">
+              <ng-container i18n="@@editor-logged-in-as">Logged in as</ng-container> {{ user }}
+            </span>
+          </div>
+          <div class="editor__row">
+            <span class="editor__row-title" i18n="@@editor-power-plug">Power plug</span>
+            @if (plugAvailable && tapo) {
+              <span class="editor__status" [class.editor__status--ok]="tapoStatus.startsWith('Plug')">{{
+                tapoStatus
+              }}</span>
+              <span class="editor__full editor__form">
+                <input
+                  class="editor__input"
+                  [(ngModel)]="tapo.username"
+                  placeholder="Tapo email"
+                  aria-label="Tapo email" />
+                <input
+                  class="editor__input"
+                  type="password"
+                  [(ngModel)]="tapo.password"
+                  placeholder="Tapo password"
+                  aria-label="Tapo password" />
+                <input
+                  class="editor__input"
+                  [(ngModel)]="tapo.host"
+                  placeholder="Plug IP, e.g. 192.168.31.50"
+                  aria-label="Plug IP" />
+                <button class="editor__button" [disabled]="!tapo.username || !tapo.password" (click)="scanTapo()">
+                  <ng-container i18n="@@editor-tapo-scan">Auto-detect</ng-container>
+                </button>
+                <button class="editor__button editor__button--primary" (click)="saveTapo()" i18n="@@editor-save">
+                  Save
+                </button>
+                <button class="editor__button" (click)="switchTapo(true)" i18n="@@companion-on">On</button>
+                <button class="editor__button" (click)="switchTapo(false)" i18n="@@companion-off">Off</button>
+              </span>
+              @if (tapoBusy) {
+                <span class="editor__hint editor__full">{{ tapoBusy }}</span>
+              }
+              @for (device of tapoDevices; track device.host) {
+                <button
+                  class="editor__button editor__full"
+                  (click)="tapo.host = device.host; tapoDevices = []; saveTapo()">
+                  {{ device.alias }} ({{ device.model }}) – {{ device.host }} {{ device.note }}
+                </button>
+              }
+              <span class="editor__hint editor__full" i18n="@@editor-tapo-hint"
+                >Use your Tapo app login. In the Tapo app turn on Me → Third-Party Services → Third-Party
+                Compatibility.</span
+              >
+            } @else if (plugAvailable) {
+              <span class="editor__status editor__status--ok" i18n="@@editor-plug-found">Plug plugin found</span>
+            } @else if (plugAvailable === false) {
+              <span class="editor__status" i18n="@@editor-plug-missing"
+                >Not installed: install the Tapo Plug plugin in OctoPrint's Plugin Manager</span
+              >
+            }
+          </div>
+          <div class="editor__row">
+            <span class="editor__row-title">Spotify</span>
+            @if (spotify.connected) {
+              <span class="editor__status editor__status--ok" i18n="@@editor-spotify-ok">Connected</span>
+            }
+            @if (canLoginSpotify) {
+              <input
+                class="editor__input"
+                [(ngModel)]="spotifyClientId"
+                (change)="saveSpotifyClientId()"
+                placeholder="Client ID"
+                aria-label="Spotify Client ID" />
+              <button
+                class="editor__button editor__button--primary"
+                [disabled]="!spotifyClientId.trim()"
+                (click)="connectSpotify()">
+                @if (spotify.connected) {
+                  <ng-container i18n="@@editor-spotify-reconnect">Reconnect</ng-container>
+                } @else {
+                  <ng-container i18n="@@editor-spotify-connect">Connect Spotify</ng-container>
+                }
+              </button>
+              <span class="editor__hint editor__full">
+                <ng-container i18n="@@editor-spotify-howto"
+                  >In your Spotify app (developer.spotify.com/dashboard) set the Redirect URI to exactly:</ng-container
+                >
+                <code>{{ spotifyRedirectUri }}</code>
+              </span>
+            } @else {
+              <span class="editor__status" i18n="@@editor-spotify-https"
+                >Open this editor through its Tailscale https:// address to connect Spotify.</span
+              >
+            }
+          </div>
+          <div class="editor__row">
+            <span class="editor__row-title">Tailscale</span>
+            @if (canLoginSpotify) {
+              <span class="editor__status editor__status--ok" i18n="@@editor-tailscale-ok">Connected over HTTPS</span>
+            } @else {
+              <span class="editor__status" i18n="@@editor-tailscale"
+                >Not in use: remote access + HTTPS (run the Tailscale setup on the Pi)</span
+              >
+            }
+          </div>
+        }
+
+        @case ('printer') {
+          <h2 i18n="@@editor-tab-printer">Printer (OctoDash)</h2>
+          <p class="editor__hint" i18n="@@editor-octodash-hint">
+            All of OctoDash's settings (plugins, custom actions, file browser…). Saving writes them to the screen.
+          </p>
+          <button
+            class="editor__button editor__button--primary"
+            (click)="octodashSettingsVisible = true"
+            i18n="@@editor-open-octodash-settings">
+            Open OctoDash settings
+          </button>
+        }
+      }
+    </section>
+  </main>
+</div>
+
+@if (octodashSettingsVisible) {
+  <div class="editor__modal">
+    <app-settings (closeFunction)="octodashSettingsVisible = false"></app-settings>
+  </div>
+}

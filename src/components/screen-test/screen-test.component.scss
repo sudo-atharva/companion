@@ -1,0 +1,139 @@
+.screen-test {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background-color: var(--background);
+  touch-action: none;
+
+  &__fill {
+    position: absolute;
+    inset: 0;
+  }
+
+  &__hint {
+    position: absolute;
+    left: 50%;
+    bottom: 6vh;
+    transform: translateX(-50%);
+    padding: 1vh 2vw;
+    border-radius: 1vw;
+    background-color: rgb(0 0 0 / 60%);
+    color: #fff;
+    font-size: 2.5vw;
+    white-space: nowrap;
+  }
+
+  &__skip {
+    position: absolute;
+    top: 3vh;
+    right: 3vw;
+    min-width: 60px;
+    min-height: 60px;
+    line-height: 60px;
+    padding: 0 2vw;
+    text-align: center;
+    border-radius: 1vw;
+    background-color: rgb(0 0 0 / 60%);
+    color: #fff;
+    font-size: 3vw;
+  }
+
+  &__center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 3.5vw;
+    width: 70vw;
+  }
+
+  &__error {
+    display: block;
+    margin-top: 2vh;
+    font-size: 2.5vw;
+    color: var(--warn);
+  }
+
+  &__countdown {
+    display: block;
+    margin-top: 1vh;
+    font-size: 2.5vw;
+    opacity: 0.75;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: center;
+    gap: 4vw;
+    margin-top: 4vh;
+  }
+
+  &__button {
+    min-width: 22vw;
+    min-height: 60px;
+    line-height: 60px;
+    border-radius: 2vw;
+    background-color: var(--primary);
+    font-size: 3.5vw;
+
+    &--secondary {
+      background-color: var(--background-3);
+    }
+  }
+
+  // crosshair centred on its left/top position
+  &__target {
+    position: absolute;
+    width: 8vw;
+    height: 8vw;
+    transform: translate(-50%, -50%);
+    opacity: 0.25;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      background-color: var(--text);
+    }
+
+    &::before {
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      transform: translateX(-50%);
+    }
+
+    &::after {
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 2px;
+      transform: translateY(-50%);
+    }
+
+    &--active {
+      opacity: 1;
+
+      &::before,
+      &::after {
+        background-color: var(--primary);
+      }
+    }
+
+    &--done {
+      opacity: 0.5;
+    }
+  }
+
+  &__dot {
+    position: absolute;
+    width: 3vw;
+    height: 3vw;
+    border-radius: 50%;
+    background-color: var(--primary);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+}

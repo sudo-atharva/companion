@@ -1,113 +1,51 @@
-<p align="center">
-    <img width="300" height="300" src="./src/assets/icon/icon-main-dark-title.svg">
-    <br><br>
-    <img src="https://img.shields.io/github/actions/workflow/status/UnchartedBull/OctoDash/build.yaml?style=for-the-badge">
-    <img src="https://img.shields.io/codefactor/grade/github/UnchartedBull/OctoDash/main?style=for-the-badge">
-    <img src="https://img.shields.io/github/v/release/UnchartedBull/OctoDash?style=for-the-badge&label=Latest">
-    <img src="https://img.shields.io/github/downloads/UnchartedBull/OctoDash/latest/total?color=lightgrey&style=for-the-badge">
-    <br>
-    <b>OctoDash is a simple, but beautiful dashboard for OctoPrint. Please read the instructions carefully!</b><br />
-    OctoDash is a User Interface for OctoPrint, it utilizes the OctoPrint API but tries to use modern design principles in order to fully enable the power of your Raspberry Pi attached to your 3D Printer. OctoDash works best with a Touchscreen and will support almost all functions that OctoPrint offers just in a nicer format. Give it a try!
-</p>
+# Companion
 
-## Table of Contents
+**A CarPlay-style home screen for your 3D printer's touchscreen.**
 
-- [Table of Contents](#table-of-contents)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Update](#update)
-- [Tips and Tricks](#tips-and-tricks)
-- [Demo](#demo)
-- [Screenshots](#screenshots)
-- [Get in contact](#get-in-contact)
-- [Troubleshooting](#troubleshooting)
-- [Bugs and more](#bugs-and-more)
-- [Contributing](#contributing)
-- [License](#license)
+## Why
 
-## Requirements
+A printer touchscreen (OctoDash, the printer's own display) only does something while you print. The rest of the time it sits there showing an error or a sleeping logo. And even while printing, most of the time there's nothing to do on it.
 
-- OctoPrint 1.9.0 or higher
-- A Debian-based Linux installation
-  - OctoPi recommended
-  - OctoDash may be installed on the same device OctoPrint is running from
-- A 16:9, 16:10 or 4:3 screen in landscape orientation
-  - Touchscreen recommended
+So I made it do something. Companion turns that little screen next to the printer into a companion: a clock and weather, your music, your power plug, your own shortcut buttons. The printer controls (OctoDash) are still there, as one app among others.
 
-## Installation
+## What it does
 
-```
-bash <(wget -qO- https://github.com/UnchartedBull/OctoDash/raw/main/scripts/install.sh)
-```
+On a 3.5" touchscreen (480×320), tap-only. No swipes; pages turn with ◀ ▶ buttons so it works reliably on cheap resistive touch.
 
-_Execute this command as the user that logs in on the display (usually `pi`) and not as `root` or with `sudo`._ For more options and information have a look at the [wiki](https://github.com/UnchartedBull/OctoDash/wiki/Installation).
+- **Boot animation:** a gear that turns into the "C" of Companion.
+- **Dashboard:**
+  - Clock, date and weather.
+  - While printing: progress, time left and temperatures.
+  - While music plays: the album cover fills the widget.
+  - Printer and power cards (live watts and kWh per print from a TP-Link Tapo P110).
+- **Printer:** the full OctoDash (files with slicer thumbnails, control, filament, print controls), restyled to match.
+  - **Print with the printer off:** pick a file, tap Print. The plug switches on, OctoPrint connects, the print starts.
+  - **Cancel parks the head:** X/Y home, Z stays put.
+- **Music:** Spotify remote with a blurred "live poster" background, synced lyrics (LRCLIB), queue, playlists, liked and recent songs.
+- **Deck:** your own shortcut buttons (G-code, plug on/off, HTTP calls such as Home Assistant webhooks). Risky ones need two taps.
+- **Night clock:** after 5 minutes without a tap, a black flip clock with the date. The first tap only wakes the screen.
+- **Touch calibration** on first start, built in (no xinput_calibrator).
+- **Web editor** at `http://<octopi>/plugin/companion/` (needs the Companion OctoPrint plugin):
+  - Live preview of the screen.
+  - Dashboard, Deck, screen and OctoDash settings.
+  - Spotify login and Tapo plug setup.
+  - Over Tailscale it's the same address from anywhere, with HTTPS.
 
-No Keyboard? [No Problem](https://github.com/UnchartedBull/OctoDash/wiki/Setup#setup-without-keyboard).
+## Parts
 
-Having issues during the installation? Please have a look at the [Troubleshooting Guide](https://github.com/UnchartedBull/OctoDash/wiki/Troubleshooting) first.
+| Part                                                                                   | What                                                                                                 |
+| -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| this repo                                                                              | the screen app (Electron + Angular, a fork of [OctoDash](https://github.com/UnchartedBull/OctoDash)) |
+| Companion OctoPrint plugin                                                             | serves the web editor, stores the screen's config, Spotify login, print-with-printer-off             |
+| [OctoPrint-PSUControl-Tapo](https://github.com/sudo-atharva/OctoPrint-PSUControl-Tapo) | Tapo P110 power plug: on/off, auto-connect, auto-off, energy readings                                |
+| Slicer Thumbnails (jneilliii)                                                          | G-code thumbnails in the file list                                                                   |
 
-## Update
+## Hardware it's tested on
 
-Updates can be made through the OctoDash UI, by clicking Settings > About > Install \[CurrentVersion\]!
+- Raspberry Pi 3B+, Raspberry Pi OS 12 (bookworm, 32-bit, OctoPi)
+- Generic 3.5" SPI touchscreen (ILI9486 + XPT2046). Use goodtft LCD-show's `tft35a` overlay; the stock `piscreen`/`ads7846` overlays declare the pen-down pin active-high, and current kernels then drop every touch.
+- TP-Link Tapo P110
 
-Updates can also be made via the command line:
+## Credits
 
-```
-bash <(wget -qO- https://github.com/UnchartedBull/OctoDash/raw/main/scripts/update.sh)
-```
-
-## Tips and Tricks
-
-- OctoDash supports printing from your Raspberry and from the printers SD card, if configured in OctoPrint (v1.5.0 and up)
-- You can let OctoDash push out and pull in the filament during a filament change, if you setup your feed length correctly (v1.5.0 and up)
-  - You can also use your printers filament change progress, just enable this in the settings (the printer needs to support M600)
-- If you're using FilamentManager add the color (in HEX format) to the end of the name, like "Vendor black (#000000)", this color will then be shown in the filament selection menu
-- You can adjust the look of OctoDash by adjusting the `~/.config/octodash/custom-styles.css` file and adding your own CSS rules (v2.0.0 and up)
-- OctoDash supports .ufp package and PrusaSlicer preview images (v1.5.0 and up)
-  - To get the best results, you should use a square aspect ration, like `256x256`
-- You can also show the thumbnails during print, if you press on the percentage inside the progress ring (v1.5.0 and up)
-- You can press multiple arrows directly after another in the control view. All actions will be executed in series, even if the prior didn't finish
-- The six actions on the right in the control view can be customized. They can either send GCode commands to your printer, restart OctoPrint or your Pi and even open iFrames so you can view your camera
-- You can adjust the temperatures and fan speed in the home screen by pressing on their icons, if you want to set them to zero, just tap the value once (v1.4.1 and up)
-- OctoDash will start in your host's language if it is supported. You can start OctoDash in a different supported language by starting it with `LANG=fr_FR.UTF-8 octodash`. Currently supported languages are: `fr_FR.UTF-8`, english will be used if your requested language isn't available
-
-## Demo
-
-If you want to see OctoDash in action, here is an awesome video from Nick on [YouTube](https://youtu.be/YI_c-DY6zU4) there is also a video available from Chris Riley, which also shows the installation process on [YouTube](https://youtu.be/kwo3HMBnqC4)
-
-## Screenshots
-
-<p float="left">
-    <img src="https://raw.githubusercontent.com/TimonGaebelein/OctoprintDash/main/screenshots/main-screen.png" width="49.5%" alt-text="Main Screen"/>
-    <img src="https://raw.githubusercontent.com/TimonGaebelein/OctoprintDash/main/screenshots/job.png" width="49.5%" alt-text="Job Running">
-    <img src="https://raw.githubusercontent.com/TimonGaebelein/OctoprintDash/main/screenshots/control.png" width="49.5%" alt-text="Printer Controls">
-    <img src="https://raw.githubusercontent.com/TimonGaebelein/OctoprintDash/main/screenshots/print_controls.png" width="49.5%" alt-text="In Print">
-    <img src="https://raw.githubusercontent.com/TimonGaebelein/OctoprintDash/main/screenshots/files_view.png" width="49.5%" alt-text="List Files">
-    <img src="https://raw.githubusercontent.com/TimonGaebelein/OctoprintDash/main/screenshots/file_details.png" width="49.5%" alt-text="Details about Files">
-    <img src="https://raw.githubusercontent.com/TimonGaebelein/OctoprintDash/main/screenshots/file_loaded.png" width="49.5%" alt-text="Loaded Files">
-    <img src="https://raw.githubusercontent.com/TimonGaebelein/OctoprintDash/main/screenshots/filament_selection.png" width="49.5%" alt-text="Settings">
-    <img src="https://raw.githubusercontent.com/TimonGaebelein/OctoprintDash/main/screenshots/filament_heating.png" width="49.5%" alt-text="Settings">
-    <img src="https://raw.githubusercontent.com/TimonGaebelein/OctoprintDash/main/screenshots/settings.png" width="49.5%" alt-text="Settings">
-</p>
-
-More Screenshots can be found [here](https://github.com/UnchartedBull/OctoDash/tree/main/screenshots).
-
-## Get in contact
-
-We now have a Discord server as well. Feel free to join and ask your support & development questions over there: https://discord.gg/gTasZTz.
-
-## Troubleshooting
-
-If you encounter an issue, while using OctoDash please have a look at the [wiki](https://github.com/UnchartedBull/OctoDash/wiki/Troubleshooting) first! If your issue is not covered please open an issue!
-
-## Bugs and more
-
-If you find a bug, please open an issue, so I can have a look at it. Please also add the steps to reproduce and the .gcode file (if applicable). Thank you!
-
-## Contributing
-
-See [CONTRIBUTING.md](https://github.com/UnchartedBull/OctoDash/blob/main/CONTRIBUTING.md).
-
-## License
-
-The project is licensed under the Apache 2.0 License. [More Information](https://github.com/UnchartedBull/OctoDash/blob/main/LICENSE.md).
+Companion is built on [OctoDash](https://github.com/UnchartedBull/OctoDash) by UnchartedBull and contributors (Apache 2.0, see `LICENSE.md`). The original README is in [README.octodash.md](README.octodash.md).

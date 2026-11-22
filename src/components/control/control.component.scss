@@ -1,300 +1,183 @@
-.control {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  overflow: visible;
+// Companion look, laid out for 480x320 (1vw = 4.8px, 1vh = 3.2px):
+// top bar | jog pad (X/Y cross, Z, E) + temperature cards | step-size pills (home button bottom-left)
+$btn: 48px;
+$gap: 6px;
 
-  &__jog {
-    margin-top: 4vh;
-    flex-grow: 1;
+.control {
+  box-sizing: border-box;
+  padding: 1vh 3vw 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh; // natural height: the top bar (with the back pill) is taller than OctoDash's fixed 10vh
+
+  &__title {
+    font-family: Arvo, sans-serif;
+    font-size: 4.4vw;
+    text-transform: capitalize;
+  }
+
+  &__pad {
+    display: flex;
+    align-items: flex-start;
+    gap: 4vw;
+  }
+
+  // X/Y: 3x3 grid, buttons on the cross
+  &__xy {
+    display: grid;
+    grid-template-columns: repeat(3, $btn);
+    grid-template-rows: repeat(3, $btn) auto;
+    gap: $gap;
+  }
+
+  &__btn {
+    width: $btn;
+    height: $btn;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--background-2);
+    font-size: 5vw;
+    overflow: hidden;
+    position: relative;
+
+    &--up {
+      grid-area: 1 / 2;
+    }
+
+    &--left {
+      grid-area: 2 / 1;
+    }
+
+    &--right {
+      grid-area: 2 / 3;
+    }
+
+    &--down {
+      grid-area: 3 / 2;
+    }
+  }
+
+  // Z and E: two buttons stacked, vertically centred on the X/Y cross
+  &__column {
+    margin-top: calc(($btn + $gap) / 2);
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    overflow: visible;
+    align-items: center;
 
-    &-arrows {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      overflow: visible;
-      margin-left: 5vw;
-      margin-right: -3vw;
-
-      .icon-wrapper {
-        position: absolute;
-        width: 15vw;
-        height: 15vw;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        --buffer: -5.5vh;
-      }
-
-      &__XY {
-        display: block;
-        height: 60vh;
-        text-align: center;
-        float: left;
-        overflow: visible;
-
-        &__wrapper {
-          position: relative;
-
-          --size: 50vh;
-
-          width: var(--size);
-          height: var(--size);
-          font-size: 20vh;
-          overflow: visible;
-
-          .up {
-            top: var(--buffer);
-            left: 0;
-            right: 0;
-            margin: 0 auto;
-          }
-
-          .down {
-            bottom: var(--buffer);
-            left: 0;
-            right: 0;
-            margin: 0 auto;
-          }
-
-          .left {
-            top: 0;
-            bottom: 0;
-            margin: auto 0;
-            left: var(--buffer);
-          }
-
-          .right {
-            top: 0;
-            bottom: 0;
-            margin: auto 0;
-            right: var(--buffer);
-          }
-        }
-      }
-
-      &--vertical {
-        display: block;
-        height: 60vh;
-        text-align: center;
-        float: left;
-        overflow: visible;
-
-        &__wrapper {
-          position: relative;
-          width: 15vw;
-          height: 50vh;
-          font-size: 20vh;
-          overflow: visible;
-
-          .up {
-            top: var(--buffer);
-            left: 0;
-            right: 0;
-            margin: 0 auto;
-          }
-
-          .down {
-            bottom: var(--buffer);
-            left: 0;
-            right: 0;
-            margin: 0 auto;
-          }
-        }
-      }
+    .control__btn + .control__btn {
+      margin-top: $btn * 0.5 + $gap * 2; // lines up with the X/Y up/down buttons
     }
   }
 
-  &__heading {
-    display: block;
-    margin-top: 4vh;
-    font-size: 3vw;
-    opacity: 0.5;
-    font-weight: 400;
-  }
+  &__label {
+    margin-top: 0.5vh;
+    color: var(--primary);
+    font-size: 2.8vw;
+    font-weight: 500;
+    text-align: center;
 
-  &__icon {
-    font-size: 15vw;
-    opacity: 0.9;
-  }
-
-  &__distance {
-    display: inline-block;
-    border-collapse: separate;
-
-    &-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 4vh;
-    }
-
-    &-field {
-      font-size: 2.8vw;
-      width: 10vw;
-      text-align: center;
-      border: 0.25vw solid var(--border);
-      border-right: 0.175vw solid var(--border);
-      border-left: 0.175vw solid var(--border);
-      padding: 1vh 0.7vw;
-      opacity: 0.5;
-      background-color: transparent;
-      transition: all 0.3s ease-in-out;
-      transition-property: opacity, background;
-
-      &-active {
-        opacity: 0.9;
-        background-color: rgb(245 246 250 / 20%);
-      }
-    }
-
-    &-field:first-child {
-      border-top-left-radius: 1vw;
-      border-bottom-left-radius: 1vw;
-      border-left: 0.25vw solid var(--border);
-    }
-
-    &-field:last-child {
-      border-top-right-radius: 1vw;
-      border-bottom-right-radius: 1vw;
-      border-right: 0.25vw solid var(--border);
+    &--xy {
+      grid-area: 4 / 1 / 5 / 4;
+      margin-top: 0;
     }
   }
 
-  &__tool {
-    &-field span {
-      display: block;
-      font-size: 50%;
-      margin-top: 1vh;
-    }
-  }
-
+  // temperature cards (OctoDash's tool markup, restyled)
   &__tools {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $gap;
+
     &__bottom {
-      position: absolute;
-      bottom: 4vh;
+      display: contents;
     }
 
     &__field-active {
-      filter: drop-shadow(0 0 0.5vw rgb(255 255 255 / 50%));
+      outline: 2px solid var(--primary);
     }
 
     &__item {
-      width: 22vw;
-      padding: 1.5vh 2vw;
-      margin-right: 2vw;
-      font-size: 3vw;
-      transition: filter 0.2s;
+      box-sizing: border-box;
+      min-height: 52px;
+      padding: 0 2vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1vw;
+      border-radius: 3vw;
+      background-color: var(--background-2);
+      overflow: hidden;
+      position: relative;
 
       &-icon {
-        vertical-align: middle;
-        display: inline-block;
-        width: 6vw;
+        width: 5vw;
+        flex: 0 0 5vw;
       }
 
       &-value {
-        display: inline-block;
-        width: calc(100% - 6vw);
         text-align: right;
-        vertical-align: middle;
-        line-height: 6vh;
+        line-height: 1.15;
+      }
 
-        &-unit {
-          font-size: 60%;
-        }
+      &-value-actual {
+        font-family: Arvo, sans-serif;
+        font-size: 3.8vw;
+      }
 
-        &-actual {
-          font-weight: 500;
-        }
+      &-value-unit {
+        font-size: 60%;
+      }
 
-        &-set {
-          font-size: 2vw;
-        }
+      &-value-set {
+        display: block;
+        font-size: 2.2vw;
+        opacity: 0.7;
       }
 
       &-tool-changer {
+        justify-content: space-around;
+
         &__item {
-          margin: 1vh 0;
-
-          &:first-child {
-            margin-top: -1vh;
-          }
-
-          &:last-child {
-            margin-bottom: 0;
-          }
+          padding: 1vh 1vw;
+          border-radius: 2vw;
         }
       }
     }
   }
-}
 
-.quick-control {
-  position: fixed;
-  inset: 0;
-  background-color: rgb(0 0 0 / 85%);
-  transition: opacity 0.4s ease-in-out;
-  z-index: 10;
-  opacity: 0;
+  &__steps {
+    padding-left: calc(64px - 1vw); // keep clear of the home button
+    display: flex;
+    align-items: center;
+    gap: 1.5vw;
+  }
 
-  &__controller {
-    width: 35vw;
-    margin: 0 auto;
-    border: solid 0.6vw;
-    border-radius: 3vw;
-    margin-top: 1.5vh;
+  &__step {
+    min-width: 11vw;
+    height: 44px;
+    box-sizing: border-box;
+    padding: 0 1.5vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 24px;
+    background-color: var(--background-2);
+    font-size: 3vw;
+    overflow: hidden;
+    position: relative;
 
-    &-row {
-      display: flex;
-    }
-
-    &-value {
-      padding: 3vh 6vw;
-      font-size: 8vw;
-      font-weight: 500;
-      text-align: center;
-
-      &-unit {
-        text-align: center;
-        font-size: 4vw;
-        font-weight: 400;
-      }
-    }
-
-    &-increase {
-      padding: 3vh 6vw;
-      font-weight: 500;
-      flex: 1;
-    }
-
-    &-decrease {
-      padding: 3vh 6vw;
-      font-weight: 500;
-      flex: 1;
-    }
-
-    &-set {
-      height: 10vw;
-      border-top: solid 0.6vw;
-      flex: 1;
-      align-items: center;
-      display: flex;
-
-      &-span {
-        text-align: center;
-        flex: 1;
-      }
+    &--active {
+      background-color: var(--primary);
+      color: #fff;
     }
   }
-}
 
-.extruder-controls {
-  fa-icon {
-    font-size: 8vw;
+  &__unit {
+    font-size: 2.6vw;
+    opacity: 0.6;
   }
 }

@@ -1,0 +1,97 @@
+// Timeline: 0-1.1s spin | 0.9-1.4s teeth retract | 0.9-1.5s ring opens into a C | 1.5-2.3s word slides out
+// then hold until the app is ready (.splash--out) -> 0.4s fade.
+// Ring r=30 -> circumference 188.5; gap of 48.5 centred on 3 o'clock (dashoffset -24.25) = the C's opening.
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background);
+
+  &--out {
+    animation: splash-fade 0.4s ease-in forwards;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+  }
+
+  &__mark {
+    width: 30vh;
+    height: 30vh;
+    overflow: visible;
+  }
+
+  &__gear {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: splash-spin 1.1s ease-in-out forwards;
+  }
+
+  &__teeth {
+    fill: var(--primary);
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: splash-teeth 0.5s ease-in 0.9s forwards;
+  }
+
+  &__ring {
+    fill: none;
+    stroke: var(--primary);
+    stroke-width: 12;
+    stroke-dasharray: 188.5 0;
+    stroke-dashoffset: -24.25;
+    animation: splash-open 0.6s ease-out 0.9s forwards;
+  }
+
+  &__word {
+    font-family: Arvo, sans-serif;
+    font-size: 21vh;
+    line-height: 1;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 0;
+    opacity: 0;
+
+    // pull the word into the C's opening, lowercase sits on the C's baseline
+    margin-left: -5vh;
+    padding-top: 3vh;
+    animation: splash-word 0.8s ease-out 1.5s forwards;
+  }
+}
+
+@keyframes splash-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes splash-teeth {
+  to {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+}
+
+@keyframes splash-open {
+  to {
+    stroke-dasharray: 140 48.5;
+  }
+}
+
+@keyframes splash-word {
+  to {
+    max-width: 100vw;
+    opacity: 1;
+  }
+}
+
+@keyframes splash-fade {
+  to {
+    opacity: 0;
+  }
+}

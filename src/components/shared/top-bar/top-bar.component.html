@@ -1,9 +1,11 @@
 <table class="top-bar">
   <tr>
     @if (back) {
-      <td class="top-bar__back" matRipple [matRippleUnbounded]="false" (click)="onBack.emit(true)">
-        <fa-icon [icon]="back.icon" class="top-bar__back-icon" />
-        {{ back.text }}
+      <td class="top-bar__back" (click)="onBack.emit(true)">
+        <!-- Companion look: the back button is a pill (a styled table cell gets squeezed by the table) -->
+        <span class="top-bar__pill" matRipple [matRippleUnbounded]="false">
+          <fa-icon [icon]="back.icon" class="top-bar__back-icon" />{{ back.text }}
+        </span>
       </td>
     }
     @if (!back) {

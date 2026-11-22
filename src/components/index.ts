@@ -1,5 +1,13 @@
 import { ActionCenterComponent } from './action-center/action-center.component';
 import { AppComponent } from './app.component';
+import { CompanionSettingsComponent } from './companion/companion-settings/companion-settings.component';
+import { DashboardComponent } from './companion/dashboard/dashboard.component';
+import { DeckComponent } from './companion/deck/deck.component';
+import { EditorComponent } from './companion/editor/editor.component';
+import { HomeButtonComponent } from './companion/home-button/home-button.component';
+import { MusicComponent } from './companion/music/music.component';
+import { ScreenSleepComponent } from './companion/screen-sleep/screen-sleep.component';
+import { SplashComponent } from './companion/splash/splash.component';
 import { ControlComponent } from './control/control.component';
 import { ChangeFilamentComponent } from './filament/change-filament/change-filament.component';
 import { ChooseFilamentComponent } from './filament/choose-filament/choose-filament.component';
@@ -18,6 +26,7 @@ import { PrintControlComponent } from './main-screen/print-control/print-control
 import { PrinterStatusComponent } from './main-screen/printer-status/printer-status.component';
 import { NotificationComponent } from './notification/notification.component';
 import { ResetComponent } from './reset/reset.component';
+import { ScreenTestComponent } from './screen-test/screen-test.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SettingsIconComponent } from './settings/settings-icon/settings-icon.component';
 import { DiscoverOctoprintComponent } from './setup/discover-octoprint/discover-octoprint.component';
@@ -36,7 +45,6 @@ import { FanQuickControlComponent } from './shared/smart-quick-control-component
 import { HotendQuickControlComponent } from './shared/smart-quick-control-component/hotend-quick-control/hotend-quick-control.component';
 import { ToggleSwitchComponent } from './shared/toggle-switch/toggle-switch.component';
 import { TopBarComponent } from './shared/top-bar/top-bar.component';
-import { StandbyComponent } from './standby/standby.component';
 import { UpdateComponent } from './update/update.component';
 
 export default [
@@ -73,7 +81,15 @@ export default [
   HotendIconComponent,
   ToggleSwitchComponent,
   TopBarComponent,
-  StandbyComponent,
+  ScreenTestComponent,
+  SplashComponent,
+  DashboardComponent,
+  HomeButtonComponent,
+  EditorComponent,
+  MusicComponent,
+  DeckComponent,
+  CompanionSettingsComponent,
+  ScreenSleepComponent,
   UpdateComponent,
   QuickControlComponent,
   HotendQuickControlComponent,

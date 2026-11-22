@@ -18,4 +18,7 @@ export abstract class EnclosureService {
   abstract setPSUState(state: PSUState): void;
 
   abstract togglePSU(): void;
+
+  // null = unknown (no PSU Control provider, or plug unreachable)
+  abstract getPSUState(): Observable<boolean | null>;
 }

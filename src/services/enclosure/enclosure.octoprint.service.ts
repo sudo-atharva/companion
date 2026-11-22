@@ -11,6 +11,7 @@ import {
   EnclosurePWMBody,
   OphomPlugStatus,
   PSUControlCommand,
+  PSUControlState,
   TasmotaCommand,
   TasmotaMqttCommand,
   TPLinkCommand,
@@ -324,5 +325,23 @@ export class EnclosureOctoprintService implements EnclosureService {
     }
     const newState = this.currentPSUState === PSUState.ON ? PSUState.OFF : PSUState.ON;
     this.setPSUState(newState);
+  }
+
+  // ponytail: only PSU Control (and plugins that answer its API, like the Tapo plugin) report state
+  public getPSUState(): Observable<boolean | null> {
+    if (!this.configService.usePSUControl()) {
+      return of(null);
+    }
+    const payload: PSUControlCommand = { command: 'getPSUState' };
+    return this.http
+      .post<PSUControlState>(
+        this.configService.getApiURL('plugin/psucontrol'),
+        payload,
+        this.configService.getHTTPHeaders(),
+      )
+      .pipe(
+        map(data => data.isPSUOn),
+        catchError(() => of(null)),
+      );
   }
 }

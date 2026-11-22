@@ -1,0 +1,15 @@
+<div class="splash" [class.splash--out]="ready && introDone" (animationend)="onAnimationEnd($event)">
+  <div class="splash__logo">
+    <svg class="splash__mark" viewBox="0 0 100 100" aria-hidden="true">
+      <g class="splash__gear">
+        <g class="splash__teeth">
+          @for (angle of teeth; track angle) {
+            <rect x="44" y="6" width="12" height="16" rx="2" [attr.transform]="'rotate(' + angle + ' 50 50)'" />
+          }
+        </g>
+        <circle class="splash__ring" cx="50" cy="50" r="30" />
+      </g>
+    </svg>
+    <span class="splash__word">ompanion</span>
+  </div>
+</div>

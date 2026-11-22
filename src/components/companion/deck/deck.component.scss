@@ -1,0 +1,97 @@
+// 480x320: 3 x 2 buttons (~145 x 110 px), bottom bar 60 px with the home button on the left.
+.deck {
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 3vh 3vw;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+
+  &__grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 2vw;
+  }
+
+  &__button {
+    --accent: var(--primary);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5vh;
+    border-radius: 3vw;
+    background-color: var(--background-2);
+    border-bottom: 1vh solid var(--accent);
+    overflow: hidden;
+    position: relative;
+    transition: background-color 0.2s;
+
+    &--armed {
+      background-color: var(--warn);
+    }
+
+    &--ok {
+      background-color: var(--success);
+    }
+
+    &--fail {
+      background-color: var(--error);
+    }
+  }
+
+  &__icon {
+    font-size: 8vw;
+    color: var(--accent);
+
+    .deck__button--armed &,
+    .deck__button--ok &,
+    .deck__button--fail & {
+      color: #fff;
+    }
+  }
+
+  &__label {
+    max-width: 90%;
+    font-size: 3vw;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__bottom {
+    height: 60px;
+    padding-left: calc(2vw + 64px); // home button
+    display: flex;
+    align-items: center;
+    gap: 2vw;
+  }
+
+  &__page {
+    font-size: 2.8vw;
+    margin-left: auto;
+  }
+
+  &__nav {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--background-2);
+    font-size: 4vw;
+    overflow: hidden;
+    position: relative;
+  }
+
+  &__hint {
+    margin-left: auto;
+    font-size: 2.4vw;
+    opacity: 0.6;
+  }
+}

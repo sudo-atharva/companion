@@ -2,45 +2,52 @@
   class="print-control__container"
   (click)="showControlOverlay($event)"
   [ngClass]="{ 'print-control__hide': !showControls }">
+  <!-- Companion look: big coloured tiles and labelled buttons instead of line drawings -->
   @if (view === controlView.MAIN) {
     <div (click)="stopPropagation($event)">
       <app-top-bar [backButton]="true" (onBack)="hideControlOverlay()"></app-top-bar>
-      <div class="print-control__action" (click)="cancel($event)">
-        <img src="assets/cancel.svg" />
-        <ng-container i18n="@@control-cancel">cancel</ng-container>
-      </div>
-      <div class="print-control__action" (click)="pause($event)">
-        <img src="assets/pause.svg" />
-        <ng-container i18n="@@control-pause">pause</ng-container>
-      </div>
-      <div class="print-control__action" (click)="adjust($event)">
-        <img src="assets/adjust.svg" />
-        <ng-container i18n="@@control-adjust">adjust</ng-container>
+      <div class="pc__tiles">
+        <div class="pc__tile pc__tile--cancel" matRipple (click)="cancel($event)">
+          <fa-icon icon="stop"></fa-icon>
+          <ng-container i18n="@@control-cancel">cancel</ng-container>
+        </div>
+        <div class="pc__tile pc__tile--pause" matRipple (click)="pause($event)">
+          <fa-icon icon="pause"></fa-icon>
+          <ng-container i18n="@@control-pause">pause</ng-container>
+        </div>
+        <div class="pc__tile pc__tile--adjust" matRipple (click)="adjust($event)">
+          <fa-icon icon="sliders"></fa-icon>
+          <ng-container i18n="@@control-adjust">adjust</ng-container>
+        </div>
       </div>
     </div>
   }
   @if (view === controlView.CANCEL) {
-    <div (click)="stopPropagation($event)">
-      <img src="assets/cancel.svg" class="print-control__center-icon" />
-      <span class="print-control__confirm" i18n="@@cancel-print">cancel print?</span>
-      <div>
-        <span class="print-control__cancel__action" (click)="cancelPrint($event)" i18n="@@ui-yes">yes</span>
-        <span class="print-control__cancel__action" (click)="backToControlScreen($event)" i18n="@@ui-no">no</span>
+    <div class="pc__dialog" (click)="stopPropagation($event)">
+      <fa-icon icon="stop" class="pc__dialog-icon pc__dialog-icon--cancel"></fa-icon>
+      <span class="pc__question" i18n="@@cancel-print">cancel print?</span>
+      <div class="pc__buttons">
+        <span class="pc__button pc__button--danger" matRipple (click)="cancelPrint($event)">
+          <ng-container i18n="@@cancel-print-yes">Yes, cancel</ng-container>
+        </span>
+        <span class="pc__button" matRipple (click)="backToControlScreen($event)" i18n="@@ui-no">no</span>
       </div>
     </div>
   }
   @if (view === controlView.PAUSE) {
-    <div (click)="stopPropagation($event)">
-      <app-top-bar [backButton]="true" (onBack)="backToControlScreen($event)"></app-top-bar>
-      <img src="assets/pause.svg" class="print-control__center-icon print-control__pause__icon" />
-      <span class="print-control__confirm" i18n="@@print-pause">print paused</span>
-      <div class="print-control__pause__resume">
-        <div (click)="restart($event)" i18n="@@print-restart">restart</div>
-        <div (click)="resume($event)">
-          <img src="assets/resume.svg" class="print-control__pause__resume-icon" />
+    <div class="pc__dialog" (click)="stopPropagation($event)">
+      <fa-icon icon="pause" class="pc__dialog-icon pc__dialog-icon--pause"></fa-icon>
+      <span class="pc__question" i18n="@@print-pause">print paused</span>
+      <div class="pc__buttons">
+        <span class="pc__button pc__button--danger-soft" matRipple (click)="cancel($event)">
+          <fa-icon icon="stop"></fa-icon>
+          <ng-container i18n="@@control-cancel">cancel</ng-container>
+        </span>
+        <span class="pc__button pc__button--go" matRipple (click)="resume($event)">
+          <fa-icon icon="play"></fa-icon>
           <ng-container i18n="@@print-resume">resume</ng-container>
-        </div>
-        <div (click)="changeFilament($event)" i18n="@@print-filament">filament</div>
+        </span>
+        <span class="pc__button" matRipple (click)="changeFilament($event)" i18n="@@print-filament">filament</span>
       </div>
     </div>
   }

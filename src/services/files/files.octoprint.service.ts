@@ -58,6 +58,8 @@ export class FilesOctoprintService implements FilesService {
                 name: fileOrFolder.display,
                 date: this.conversionService.convertDateToString(new Date(fileOrFolder.date)),
                 size: this.conversionService.convertByteToMegabyte(fileOrFolder.size),
+                // every file: slicer thumbnail (Slicer Thumbnails plugin) or the placeholder icon, analysed or not
+                thumbnail$: this.getThumbnailUrl(fileOrFolder, { small: true }),
                 ...(fileOrFolder.gcodeAnalysis
                   ? {
                       successful:
@@ -66,7 +68,6 @@ export class FilesOctoprintService implements FilesService {
                             ? 'files__object--success'
                             : 'files__object--failed'
                           : 'files__object--unknown',
-                      thumbnail$: this.getThumbnailUrl(fileOrFolder, { small: true }),
                       printTime: this.conversionService.convertSecondsToHours(
                         fileOrFolder.gcodeAnalysis.estimatedPrintTime,
                       ),
@@ -158,9 +159,9 @@ export class FilesOctoprintService implements FilesService {
   }
 
   public getThumbnailUrl(file: OctoprintFile, options: { small?: boolean } = { small: false }): Observable<string> {
-    if (options.small && file.refs.thumbnail_32x32) {
+    if (options.small && file.refs?.thumbnail_32x32) {
       return this.getThumbnailBlobUrl(file.refs.thumbnail_32x32);
-    } else if (file.refs.thumbnail) {
+    } else if (file.refs?.thumbnail) {
       return this.getThumbnailBlobUrl(file.refs.thumbnail);
     } else if (file.thumbnail) {
       return this.getThumbnailBlobUrl(this.configService.getApiURL(file.thumbnail, false));

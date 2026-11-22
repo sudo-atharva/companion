@@ -2,7 +2,9 @@ import { exec } from 'node:child_process';
 
 import { checkConfig, readConfig, resetConfig, saveConfig } from './config.js';
 import { startDiscovery, stopDiscovery } from './discover.js';
+import { activateSpotifyListener } from './spotify.js';
 import sendCustomStyles from './styles.js';
+import { activateTouchListener } from './touch.js';
 import { downloadUpdate, restartOctoDash, sendVersionInfo } from './update.js';
 
 function activateScreenSleepListener(ipcMain) {
@@ -51,6 +53,8 @@ function activateListeners(ipcMain, window, app, url) {
   activateRestartListener(ipcMain, app);
   activateUpdateListener(ipcMain, window);
   activateDiscoverListener(ipcMain, window);
+  activateTouchListener(ipcMain, window);
+  activateSpotifyListener(ipcMain, window);
 }
 
 export default activateListeners;

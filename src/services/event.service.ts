@@ -6,6 +6,8 @@ import { PrinterEvent } from '../model/event.model';
 import { ConfigService } from './config.service';
 import { SocketService } from './socket/socket.service';
 
+export const PRINTER_APP_ROUTES = ['/main-screen', '/control', '/files', '/filament'];
+
 @Injectable()
 export class EventService implements OnDestroy {
   private subscriptions: Subscription = new Subscription();
@@ -33,12 +35,10 @@ export class EventService implements OnDestroy {
       }, 1000);
     }
 
-    if (event === PrinterEvent.CLOSED) {
-      this.router.navigate(['/standby']);
-    } else if (event === PrinterEvent.CONNECTED) {
-      setTimeout(() => {
-        this.router.navigate(['/main-screen']);
-      }, 500);
+    // Companion: the printer is one app among others, so connecting never takes over the screen.
+    // Losing the printer while inside its app goes back to the dashboard.
+    if (event === PrinterEvent.CLOSED && PRINTER_APP_ROUTES.some(route => this.router.url.startsWith(route))) {
+      this.router.navigate(['/home']);
     }
   }
 

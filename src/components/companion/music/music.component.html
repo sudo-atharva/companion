@@ -1,0 +1,155 @@
+<div class="music">
+  <!-- live poster: the album art, blurred and darkened, behind everything; cross-fades on track change -->
+  @if (cover()) {
+    @for (url of [cover()]; track url) {
+      <div class="music__poster" [style.background-image]="'url(' + url + ')'"></div>
+    }
+  }
+  <div class="music__shade"></div>
+
+  @switch (state) {
+    @case ('loading') {
+      <span class="music__message loading-dots" i18n="@@please-wait">please wait</span>
+    }
+    @case ('notConnected') {
+      <span class="music__message" i18n="@@music-not-connected"
+        >Spotify is not connected. Connect it in the web editor: Setup → Spotify.</span
+      >
+    }
+    @case ('error') {
+      <span class="music__message">{{ error }}</span>
+    }
+    @case ('ready') {
+      @if (view === 'list') {
+        <div class="music__list">
+          <div class="music__tabs">
+            @for (tab of tabs; track tab.id) {
+              <span
+                class="music__chip music__chip--text"
+                [class.music__chip--on]="listTab === tab.id"
+                matRipple
+                (click)="openList(tab.id)">
+                <fa-icon [icon]="tab.icon"></fa-icon>{{ tab.label }}
+              </span>
+            }
+          </div>
+          <div class="music__rows">
+            @if (listItems === null) {
+              <span class="music__note loading-dots" i18n="@@please-wait">please wait</span>
+            } @else if (listError) {
+              <span class="music__note">{{ listError }}</span>
+            } @else if (!listItems.length) {
+              <span class="music__note" i18n="@@music-list-empty">Nothing here</span>
+            } @else {
+              @for (item of pageItems(); track $index) {
+                <div class="music__row" matRipple (click)="playItem(item)">
+                  @if (item.image) {
+                    <img class="music__thumb" [src]="item.image" alt="" />
+                  } @else {
+                    <span class="music__thumb"></span>
+                  }
+                  <span class="music__row-text">
+                    <span class="music__row-title">{{ item.title }}</span>
+                    <span class="music__row-sub">{{ item.subtitle }}</span>
+                  </span>
+                  <fa-icon icon="play" class="music__row-play"></fa-icon>
+                </div>
+              }
+            }
+          </div>
+          <div class="music__bottom">
+            <span class="music__level">{{ page + 1 }}/{{ pageCount() }}</span>
+            <span class="music__chip" matRipple (click)="turnPage(-1)"><fa-icon icon="caret-left"></fa-icon></span>
+            <span class="music__chip" matRipple (click)="turnPage(1)"><fa-icon icon="caret-right"></fa-icon></span>
+            <span class="music__spacer"></span>
+            <span class="music__chip music__chip--text" matRipple (click)="view = 'player'">
+              <fa-icon icon="music"></fa-icon>
+              <ng-container i18n="@@music-player">Player</ng-container>
+            </span>
+          </div>
+        </div>
+      } @else if (player?.item) {
+        <div class="music__main">
+          <div class="music__art">
+            @if (cover()) {
+              <img class="music__cover" [src]="cover()" alt="" />
+            }
+          </div>
+
+          <div class="music__side">
+            @if (showLyrics) {
+              <div class="music__lyrics">
+                @if (lyrics === null) {
+                  <span class="music__lyric loading-dots" i18n="@@music-lyrics-loading">lyrics</span>
+                } @else if (!lyrics.length) {
+                  <span class="music__lyric" i18n="@@music-no-lyrics">No lyrics found for this song</span>
+                } @else {
+                  @for (line of visibleLines(); track $index) {
+                    <span class="music__lyric" [class.music__lyric--current]="line.current">{{ line.text }}</span>
+                  }
+                }
+              </div>
+            } @else {
+              <span class="music__title">{{ player.item.name }}</span>
+              <span class="music__artist">{{ artists() }}</span>
+            }
+            <div class="music__progress">
+              <span class="music__bar"><span class="music__bar-fill" [style.width.%]="progress()"></span></span>
+              <span class="music__times">
+                <span>{{ time(position) }}</span>
+                <span>{{ time(player.item.duration_ms) }}</span>
+              </span>
+            </div>
+            <div class="music__controls">
+              <span class="music__button" matRipple (click)="previous()"><fa-icon icon="backward-step"></fa-icon></span>
+              <span class="music__button music__button--main" matRipple (click)="playPause()">
+                <fa-icon [icon]="player.is_playing ? 'pause' : 'play'"></fa-icon>
+              </span>
+              <span class="music__button" matRipple (click)="next()"><fa-icon icon="forward-step"></fa-icon></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="music__bottom">
+          <span class="music__chip" matRipple (click)="volume(-10)"><fa-icon icon="volume-low"></fa-icon></span>
+          <span class="music__level">{{ player.device.volume_percent ?? '–' }}%</span>
+          <span class="music__chip" matRipple (click)="volume(10)"><fa-icon icon="volume-high"></fa-icon></span>
+          <span
+            class="music__chip music__chip--text"
+            [class.music__chip--on]="showLyrics"
+            matRipple
+            (click)="showLyrics = !showLyrics">
+            <fa-icon icon="quote-left"></fa-icon>
+            <ng-container i18n="@@music-lyrics">Lyrics</ng-container>
+          </span>
+          <span class="music__chip music__chip--text" matRipple (click)="openList()">
+            <fa-icon icon="list"></fa-icon>
+            <ng-container i18n="@@music-list">List</ng-container>
+          </span>
+          <span class="music__chip music__chip--text music__chip--device" matRipple (click)="nextDevice()">
+            <fa-icon icon="tower-broadcast"></fa-icon>
+            <span class="music__device">{{ player.device.name }}</span>
+          </span>
+        </div>
+      } @else {
+        <div class="music__idle">
+          <span class="music__message" i18n="@@music-nothing-playing"
+            >Nothing playing. Start Spotify on your phone or PC, or play on:</span
+          >
+          <div class="music__devices">
+            @for (device of devices; track device.id) {
+              <span class="music__chip music__chip--text" matRipple (click)="playOn(device)">{{ device.name }}</span>
+            }
+            <span class="music__chip music__chip--text" matRipple (click)="openList('playlists')">
+              <fa-icon icon="list"></fa-icon>
+              <ng-container i18n="@@music-playlists">Playlists</ng-container>
+            </span>
+          </div>
+        </div>
+      }
+      @if (error) {
+        <span class="music__error">{{ error }}</span>
+      }
+    }
+  }
+</div>

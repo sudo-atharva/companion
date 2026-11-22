@@ -1,8 +1,14 @@
 <app-notification></app-notification>
-@if (initialized && showActionCenterIcon()) {
-  <app-action-center [closeEvent]="hideActionCenterEvent.asObservable()"></app-action-center>
+@if (splashVisible) {
+  <app-splash [ready]="activated" (done)="splashVisible = false"></app-splash>
 }
-<div class="container" (click)="hideActionCenter()">
+<app-home-button></app-home-button>
+<app-screen-sleep></app-screen-sleep>
+@if (service.screenTestVisible) {
+  <app-screen-test></app-screen-test>
+}
+<!-- OctoDash's action center (quick G-code bar) is replaced by the Companion Deck app -->
+<div class="container">
   @if (!activated) {
     <div>
       <app-settings-icon></app-settings-icon>

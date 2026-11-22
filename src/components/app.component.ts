@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AnimationOptions } from 'ngx-lottie';
-import { Subject } from 'rxjs';
 
 import { AppService } from '../services/app.service';
 import { ConfigService } from '../services/config.service';
+import { ElectronService } from '../services/electron.service';
 import { SocketService } from '../services/socket/socket.service';
+import { isPreview, isWebVersion } from '../services/web-ipc';
 
 @Component({
   selector: 'app-root',
@@ -33,16 +34,23 @@ export class AppComponent implements OnInit {
   public checkmarkAnimationCached = false;
   public toggleSwitchAnimationCached = false;
 
-  public hideActionCenterEvent = new Subject<void>();
+  public splashVisible = true;
 
   public constructor(
-    private service: AppService,
+    public service: AppService,
     private configService: ConfigService,
     private socketService: SocketService,
     private router: Router,
+    private electronService: ElectronService,
+    private zone: NgZone,
   ) {}
 
   public ngOnInit(): void {
+    // touch calibration comes first, even before the setup wizard (which needs working touch)
+    this.electronService.on('touchStatus', (_, status: { needed: boolean }) =>
+      this.zone.run(() => (this.service.screenTestVisible ||= status.needed)),
+    );
+    this.electronService.send('touchStatus');
     this.initialize();
   }
 
@@ -55,7 +63,7 @@ export class AppComponent implements OnInit {
           this.checkInvalidConfig();
         }
       } else {
-        this.router.navigate(['/no-config']);
+        this.router.navigate(['/home']); // OctoDash not set up yet: its wizard opens from the Printer app
       }
     } else {
       setTimeout(this.initialize.bind(this), 1000);
@@ -84,7 +92,7 @@ export class AppComponent implements OnInit {
     this.socketService
       .connect()
       .then(() => {
-        this.router.navigate(['/main-screen']);
+        this.router.navigate([isWebVersion() && !isPreview() ? '/editor' : '/home']);
         this.initialized = true;
       })
       .finally(() => clearTimeout(showPrinterConnectedTimeout));
@@ -100,13 +108,5 @@ export class AppComponent implements OnInit {
 
   public checkmarkAnimationCacheDone(): void {
     this.checkmarkAnimationCached = true;
-  }
-
-  public showActionCenterIcon(): boolean {
-    return this.configService.showActionCenterIcon();
-  }
-
-  public hideActionCenter(): void {
-    this.hideActionCenterEvent.next();
   }
 }

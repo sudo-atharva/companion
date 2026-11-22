@@ -1,0 +1,32 @@
+<div class="deck">
+  <div class="deck__grid">
+    @for (button of pageButtons(); track $index) {
+      <div
+        class="deck__button"
+        [class.deck__button--armed]="armed === button"
+        [class.deck__button--ok]="result.get(button) === 'ok'"
+        [class.deck__button--fail]="result.get(button) === 'fail'"
+        [style.--accent]="button.color"
+        matRipple
+        (click)="tap(button)">
+        <fa-icon class="deck__icon" [icon]="button.icon || 'circle'"></fa-icon>
+        <span class="deck__label">
+          @if (armed === button) {
+            <ng-container i18n="@@companion-tap-again">Tap again</ng-container>
+          } @else {
+            {{ button.label }}
+          }
+        </span>
+      </div>
+    }
+  </div>
+  <div class="deck__bottom">
+    @if (pageCount() > 1) {
+      <span class="deck__page">{{ page + 1 }}/{{ pageCount() }}</span>
+      <span class="deck__nav" matRipple (click)="turnPage(-1)"><fa-icon icon="caret-left"></fa-icon></span>
+      <span class="deck__nav" matRipple (click)="turnPage(1)"><fa-icon icon="caret-right"></fa-icon></span>
+    } @else {
+      <span class="deck__hint" i18n="@@deck-edit-hint">Edit these buttons in the web editor → Deck</span>
+    }
+  </div>
+</div>

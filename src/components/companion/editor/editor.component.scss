@@ -1,0 +1,260 @@
+// Desktop/phone browser page: px/rem sizes (the rest of the app is sized in vw for the 480x320 screen).
+:host {
+  display: block;
+  height: 100vh;
+  overflow-y: auto;
+  font-size: 15px;
+  background-color: var(--background);
+}
+
+.editor {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--background-2);
+  }
+
+  &__brand {
+    font-family: Arvo, sans-serif;
+    font-size: 26px;
+  }
+
+  &__c {
+    color: var(--primary);
+  }
+
+  &__subtitle,
+  &__user {
+    opacity: 0.7;
+  }
+
+  &__spacer {
+    flex: 1;
+  }
+
+  &__link {
+    color: var(--text);
+  }
+
+  &__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+
+    button {
+      min-height: 44px;
+      padding: 0 16px;
+      border: 1px solid var(--background-3);
+      border-radius: 8px;
+      background: none;
+      color: var(--text);
+      font: inherit;
+      cursor: pointer;
+
+      &.active {
+        background-color: var(--primary);
+        border-color: var(--primary);
+      }
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: flex-start;
+  }
+
+  &__preview {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__label {
+    opacity: 0.7;
+  }
+
+  // exact pixel size of the 3.5" screen; shrinks on phones
+  &__frame {
+    width: 480px;
+    max-width: calc(100vw - 32px);
+    aspect-ratio: 3 / 2;
+    border: 6px solid #111;
+    border-radius: 10px;
+    background-color: #000;
+  }
+
+  &__panel {
+    flex: 1;
+    min-width: 280px;
+
+    h2 {
+      margin: 0 0 16px;
+      font-size: 22px;
+    }
+
+    h3 {
+      margin: 28px 0 8px;
+      font-size: 17px;
+    }
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+
+    input {
+      min-height: 40px;
+      padding: 0 10px;
+      border: 1px solid var(--background-3);
+      border-radius: 6px;
+      background-color: var(--background-2);
+      color: var(--text);
+      font: inherit;
+    }
+  }
+
+  &__input {
+    min-height: 40px;
+    padding: 0 10px;
+    border: 1px solid var(--background-3);
+    border-radius: 6px;
+    background-color: var(--background-2);
+    color: var(--text);
+    font: inherit;
+  }
+
+  &__full {
+    flex-basis: 100%;
+  }
+
+  &__deck-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--background-2);
+
+    .editor__button {
+      min-width: 40px;
+      padding: 0 10px;
+    }
+  }
+
+  &__input--small {
+    width: 110px;
+  }
+
+  &__input--wide {
+    flex: 1;
+    min-width: 180px;
+  }
+
+  &__color {
+    width: 44px;
+    height: 40px;
+    padding: 0;
+    border: none;
+    background: none;
+  }
+
+  &__check--inline {
+    margin: 0;
+  }
+
+  &__form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  &__check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+
+    input {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &__hint {
+    opacity: 0.7;
+    line-height: 1.4;
+  }
+
+  &__button {
+    min-height: 40px;
+    padding: 0 16px;
+    border: 1px solid var(--background-3);
+    border-radius: 8px;
+    background-color: var(--background-2);
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+
+    &--primary {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    &--quiet {
+      align-self: flex-start;
+      background: none;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--background-2);
+
+    &-title {
+      width: 120px;
+      font-weight: 500;
+    }
+  }
+
+  &__status {
+    flex: 1;
+    opacity: 0.8;
+
+    &--ok {
+      color: var(--success);
+      opacity: 1;
+    }
+  }
+
+  // OctoDash's settings are built for 480x320: show them in a screen-sized box
+  &__modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(0 0 0 / 60%);
+  }
+}

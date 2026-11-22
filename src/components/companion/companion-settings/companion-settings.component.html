@@ -1,0 +1,56 @@
+<div class="csettings">
+  <div class="csettings__grid">
+    <div class="csettings__tile" [class.csettings__tile--off]="!sleep" matRipple (click)="toggleSleep()">
+      <fa-icon class="csettings__icon" icon="moon"></fa-icon>
+      <span class="csettings__label" i18n="@@csettings-sleep">Night clock after 5 min</span>
+      <span class="csettings__value">
+        @if (sleep) {
+          <ng-container i18n="@@companion-on">On</ng-container>
+        } @else {
+          <ng-container i18n="@@companion-off">Off</ng-container>
+        }
+      </span>
+    </div>
+
+    <div class="csettings__tile" matRipple (click)="calibrate()">
+      <fa-icon class="csettings__icon" icon="crosshairs"></fa-icon>
+      <span class="csettings__label" i18n="@@csettings-calibrate">Calibrate touch</span>
+    </div>
+
+    <div class="csettings__tile csettings__tile--info">
+      <fa-icon class="csettings__icon" icon="globe"></fa-icon>
+      <span class="csettings__label" i18n="@@csettings-web">Web editor</span>
+      <span class="csettings__value csettings__value--small">
+        @if (address$ | async; as address) {
+          {{ address }}/plugin/companion
+        } @else {
+          …/plugin/companion
+        }
+      </span>
+    </div>
+
+    <div
+      class="csettings__tile"
+      [class.csettings__tile--disabled]="!isConfigured()"
+      matRipple
+      (click)="openPrinterSettings()">
+      <fa-icon class="csettings__icon" icon="cube"></fa-icon>
+      <span class="csettings__label" i18n="@@csettings-printer">Printer settings</span>
+    </div>
+
+    <div class="csettings__tile" [class.csettings__tile--armed]="confirmRestart" matRipple (click)="restart()">
+      <fa-icon class="csettings__icon" icon="rotate-right"></fa-icon>
+      <span class="csettings__label">
+        @if (confirmRestart) {
+          <ng-container i18n="@@companion-tap-again">Tap again</ng-container>
+        } @else {
+          <ng-container i18n="@@csettings-restart">Restart app</ng-container>
+        }
+      </span>
+    </div>
+  </div>
+</div>
+
+@if (printerSettingsVisible) {
+  <app-settings (closeFunction)="hidePrinterSettings()"></app-settings>
+}
