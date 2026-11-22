@@ -21,6 +21,12 @@ All taken on the real 3.5" screen (480×320) during a print.
 | ![Control](docs/screenshots/control.png)<br>**Control:** jog X/Y/Z/E, step sizes, temperatures                                    | ![Files](docs/screenshots/files.png)<br>**Files:** slicer thumbnails, ▲ ▼ instead of swiping                                  |
 | ![File details](docs/screenshots/file-details.png)<br>**File details:** Load, Print (works with the printer off), Delete (2 taps) |                                                                                                                               |
 
+## Timelapse
+
+A Benchy printed with Companion on the screen, with the Companion watermark ([full video](docs/timelapse-benchy.mp4)):
+
+![Benchy timelapse](docs/timelapse-benchy.gif)
+
 ## What it does
 
 On a 3.5" touchscreen (480×320), tap-only. No swipes; pages turn with ◀ ▶ buttons so it works reliably on cheap resistive touch.
@@ -37,7 +43,7 @@ On a 3.5" touchscreen (480×320), tap-only. No swipes; pages turn with ◀ ▶ b
 - **Music:** Spotify remote with a blurred "live poster" background, synced lyrics (LRCLIB), queue, playlists, liked and recent songs.
 - **Deck:** your own shortcut buttons (G-code, plug on/off, HTTP calls such as Home Assistant webhooks). Risky ones need two taps.
 - **Night clock:** after 5 minutes without a tap, a black flip clock with the date. The first tap only wakes the screen.
-- **Timelapse watermark:** the [Companion logo](docs/companion-watermark.png) instead of "created with OctoPrint", via the separate Timelapse Watermark plugin.
+- **Timelapse watermark:** "created with Companion" instead of "created with OctoPrint", via the [Timelapse Watermark](https://github.com/sudo-atharva/OctoPrint-TimelapseWatermark) plugin ([logo](docs/companion-watermark.png)).
 - **Touch calibration** on first start, built in (no xinput_calibrator).
 - **Web editor** at `http://<octopi>/plugin/companion/` (needs the Companion OctoPrint plugin):
   - Live preview of the screen.
