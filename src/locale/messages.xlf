@@ -20,7 +20,7 @@
         <source>do you want to execute the following command?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/action-center/action-center.component.html</context>
-          <context context-type="linenumber">56,58</context>
+          <context context-type="linenumber">56,59</context>
         </context-group>
       </trans-unit>
       <trans-unit id="octodash-gcode" datatype="html">
@@ -34,21 +34,21 @@
         <source>Icon</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/action-center/action-center.component.html</context>
-          <context context-type="linenumber">81,84</context>
+          <context context-type="linenumber">81,85</context>
         </context-group>
       </trans-unit>
       <trans-unit id="action-color" datatype="html">
         <source>Color</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/action-center/action-center.component.html</context>
-          <context context-type="linenumber">91,94</context>
+          <context context-type="linenumber">91,95</context>
         </context-group>
       </trans-unit>
       <trans-unit id="action-confirm" datatype="html">
         <source>Confirm</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/action-center/action-center.component.html</context>
-          <context context-type="linenumber">117,121</context>
+          <context context-type="linenumber">117,122</context>
         </context-group>
       </trans-unit>
       <trans-unit id="action-home" datatype="html">
@@ -570,7 +570,7 @@
         <source>Save to screen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/companion/editor/editor.component.html</context>
-          <context context-type="linenumber">50,55</context>
+          <context context-type="linenumber">50,56</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/companion/editor/editor.component.html</context>
@@ -1070,7 +1070,7 @@
         <source>Remaining Amount</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/filament/choose-filament/choose-filament.component.html</context>
-          <context context-type="linenumber">53,54</context>
+          <context context-type="linenumber">53,55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="choose-filament-material" datatype="html">
@@ -1170,7 +1170,7 @@
         <source>Tool <x id="INTERPOLATION" equiv-text="{{ i }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/filament/choose-tool/choose-tool.component.html</context>
-          <context context-type="linenumber">6,7</context>
+          <context context-type="linenumber">6,8</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nozzle-heating" datatype="html">
@@ -1191,14 +1191,14 @@
         <source>s or</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/filament/heat-nozzle/heat-nozzle.component.html</context>
-          <context context-type="linenumber">73,77</context>
+          <context context-type="linenumber">73,78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nozzle-heating-start" datatype="html">
         <source>start</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/filament/heat-nozzle/heat-nozzle.component.html</context>
-          <context context-type="linenumber">81,87</context>
+          <context context-type="linenumber">82,87</context>
         </context-group>
       </trans-unit>
       <trans-unit id="move-filament" datatype="html">
@@ -1254,7 +1254,7 @@
         <source>+10mm</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/filament/purge-filament/purge-filament.component.html</context>
-          <context context-type="linenumber">10,15</context>
+          <context context-type="linenumber">11,15</context>
         </context-group>
       </trans-unit>
       <trans-unit id="purging-done" datatype="html">
@@ -1464,7 +1464,7 @@
         <source>Layer <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;height-indication__current-height&quot;&gt;"/> <x id="INTERPOLATION" equiv-text="{{ height.current }}"/> <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> of <x id="START_TAG_SPAN_1" ctype="x-span_1" equiv-text="&lt;span class=&quot;height-indication__total-height&quot;&gt;"/> <x id="INTERPOLATION_1" equiv-text="{{ height.total &gt;= 0 ? height.total : &apos;---&apos; }}"/> <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/main-screen/job-status/height-progress/height-progress.component.html</context>
-          <context context-type="linenumber">13,21</context>
+          <context context-type="linenumber">13,22</context>
         </context-group>
       </trans-unit>
       <trans-unit id="job-filament" datatype="html">
@@ -2446,7 +2446,7 @@
         <source>API Key:</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/setup/octoprint-authentication/octoprint-authentication.component.html</context>
-          <context context-type="linenumber">9,13</context>
+          <context context-type="linenumber">9,14</context>
         </context-group>
       </trans-unit>
       <trans-unit id="octoprint-connection-failed" datatype="html">
@@ -2594,7 +2594,7 @@
         <source>Ophom (Phillips HUE)</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/setup/plugins/plugins.component.html</context>
-          <context context-type="linenumber">67,72</context>
+          <context context-type="linenumber">67,73</context>
         </context-group>
       </trans-unit>
       <trans-unit id="plugin-tplink-smartplug" datatype="html">
@@ -2650,7 +2650,7 @@
         <source>Validating Config</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/components/setup/setup.component.html</context>
-          <context context-type="linenumber">80,84</context>
+          <context context-type="linenumber">80,85</context>
         </context-group>
       </trans-unit>
       <trans-unit id="checking-save" datatype="html">
