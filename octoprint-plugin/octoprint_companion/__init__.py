@@ -4,10 +4,8 @@
 - Serves the Companion web app at /plugin/companion/: the control panel for the touchscreen (same address as OctoPrint).
 - /api/plugin/companion: read/write the touchscreen's config and restart the screen app.
 """
-import base64
 import json
 import os
-import shutil
 import subprocess
 import threading
 import time
@@ -22,14 +20,9 @@ WEB = os.path.join(os.path.dirname(__file__), "static", "web")
 # ponytail: the screen app runs on this Pi as the same user as OctoPrint, so its electron-store file is edited
 # directly. A screen on another machine would need the screen to fetch its config from this API instead.
 STORE = os.path.expanduser("~/.config/octodash/config.json")
-# OctoPrint always renders timelapses with this file as the watermark (no setting for the image itself)
-WATERMARK = os.path.join(os.path.dirname(octoprint.__file__), "static", "img", "watermark.png")
-PNG_MAGIC = bytes([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A])  # PNG file signature
 
 
-class CompanionPlugin(octoprint.plugin.BlueprintPlugin, octoprint.plugin.SimpleApiPlugin,
-                      octoprint.plugin.StartupPlugin, octoprint.plugin.TemplatePlugin,
-                      octoprint.plugin.AssetPlugin):
+class CompanionPlugin(octoprint.plugin.BlueprintPlugin, octoprint.plugin.SimpleApiPlugin):
     # The page holds no secrets and must load for logged-out visitors so it can send them to OctoPrint's login.
     # Everything it reads or changes goes through the API below, which needs the login + settings permission.
     def is_blueprint_protected(self):
@@ -38,59 +31,6 @@ class CompanionPlugin(octoprint.plugin.BlueprintPlugin, octoprint.plugin.SimpleA
     @octoprint.plugin.BlueprintPlugin.route("/", methods=["GET"])
     def index(self):
         return flask.send_from_directory(WEB, "index.html")
-
-    # ---- timelapse watermark (section in OctoPrint's Timelapse tab) ----
-
-    @octoprint.plugin.BlueprintPlugin.route("/watermark.png", methods=["GET"])
-    def watermark_image(self):
-        response = flask.send_file(WATERMARK, mimetype="image/png", max_age=0)
-        response.headers["Cache-Control"] = "no-store"
-        return response
-
-    @octoprint.plugin.BlueprintPlugin.route("/watermark", methods=["POST"])
-    def watermark_change(self):
-        if not Permissions.SETTINGS.can():
-            flask.abort(403)
-        data = flask.request.get_json(silent=True) or {}
-        custom = os.path.join(self.get_plugin_data_folder(), "watermark-custom.png")
-        if data.get("reset"):
-            if os.path.exists(custom):
-                os.remove(custom)
-        else:
-            try:
-                image = base64.b64decode(str(data.get("image", "")).split(",")[-1], validate=True)
-            except ValueError:
-                flask.abort(400, description="not base64")
-            if not image.startswith(PNG_MAGIC):
-                flask.abort(400, description="the watermark must be a PNG (transparency works)")
-            with open(custom, "wb") as f:
-                f.write(image)
-        self._apply_watermark()
-        return flask.jsonify(custom=os.path.exists(custom))
-
-    def on_startup(self, host, port):
-        # also after OctoPrint updates, which put their own watermark.png back
-        self._apply_watermark()
-
-    def _apply_watermark(self):
-        folder = self.get_plugin_data_folder()
-        original = os.path.join(folder, "watermark-original.png")
-        custom = os.path.join(folder, "watermark-custom.png")
-        try:
-            if not os.path.exists(original):
-                shutil.copyfile(WATERMARK, original)  # OctoPrint's own logo, taken before we ever replace it
-            shutil.copyfile(custom if os.path.exists(custom) else original, WATERMARK)
-        except OSError as e:
-            self._logger.error("Can't set the timelapse watermark: %s", e)
-
-    def get_assets(self):
-        return dict(js=["js/companion_timelapse.js"])
-
-    def get_template_configs(self):
-        return [dict(type="generic", template="companion_timelapse.jinja2", custom_bindings=True)]
-
-    def body_size_hook(self, current_max_body_sizes, *args, **kwargs):
-        return [("POST", "/watermark", 5 * 1024 * 1024)]  # image upload (OctoPrint's default limit is 100 KB)
 
     @octoprint.plugin.BlueprintPlugin.route("/<path:filename>", methods=["GET"])
     def files(self, filename):
@@ -221,4 +161,3 @@ __plugin_name__ = "Companion"
 __plugin_description__ = "Companion: control panel for the Companion touchscreen (dashboard, dock, deck, music, setup)"
 __plugin_pythoncompat__ = ">=3.9,<4"
 __plugin_implementation__ = CompanionPlugin()
-__plugin_hooks__ = {"octoprint.server.http.bodysize": __plugin_implementation__.body_size_hook}

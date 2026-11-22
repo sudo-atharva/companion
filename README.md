@@ -37,7 +37,7 @@ On a 3.5" touchscreen (480×320), tap-only. No swipes; pages turn with ◀ ▶ b
 - **Music:** Spotify remote with a blurred "live poster" background, synced lyrics (LRCLIB), queue, playlists, liked and recent songs.
 - **Deck:** your own shortcut buttons (G-code, plug on/off, HTTP calls such as Home Assistant webhooks). Risky ones need two taps.
 - **Night clock:** after 5 minutes without a tap, a black flip clock with the date. The first tap only wakes the screen.
-- **Timelapse watermark:** swap OctoPrint's "created with OctoPrint" logo in the Timelapse tab (plugin), e.g. for [the Companion one](docs/companion-watermark.png).
+- **Timelapse watermark:** the [Companion logo](docs/companion-watermark.png) instead of "created with OctoPrint", via the separate Timelapse Watermark plugin.
 - **Touch calibration** on first start, built in (no xinput_calibrator).
 - **Web editor** at `http://<octopi>/plugin/companion/` (needs the Companion OctoPrint plugin):
   - Live preview of the screen.
