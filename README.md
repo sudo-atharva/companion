@@ -4,6 +4,8 @@
 
 Made by **Atharva** ([@sudo-atharva](https://github.com/sudo-atharva)).
 
+![Companion on its 3.5" screen in a printed case, showing the night clock](docs/device.jpg)
+
 ## Why
 
 A printer touchscreen (OctoDash, the printer's own display) only does something while you print. The rest of the time it sits there showing an error or a sleeping logo. And even while printing, most of the time there's nothing to do on it.
