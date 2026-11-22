@@ -81,6 +81,320 @@
         <source>initializing</source>
         <target>initialisieren</target>
       </trans-unit>
+      <trans-unit id="csettings-sleep" datatype="html">
+        <source>Night clock after 5 min</source>
+      </trans-unit>
+      <trans-unit id="companion-on" datatype="html">
+        <source>On</source>
+      </trans-unit>
+      <trans-unit id="companion-off" datatype="html">
+        <source>Off</source>
+      </trans-unit>
+      <trans-unit id="csettings-calibrate" datatype="html">
+        <source>Calibrate touch</source>
+      </trans-unit>
+      <trans-unit id="csettings-web" datatype="html">
+        <source>Web editor</source>
+      </trans-unit>
+      <trans-unit id="csettings-printer" datatype="html">
+        <source>Printer settings</source>
+      </trans-unit>
+      <trans-unit id="companion-tap-again" datatype="html">
+        <source>Tap again</source>
+      </trans-unit>
+      <trans-unit id="csettings-restart" datatype="html">
+        <source>Restart app</source>
+      </trans-unit>
+      <trans-unit id="companion-time-left" datatype="html">
+        <source>left</source>
+      </trans-unit>
+      <trans-unit id="companion-printer" datatype="html">
+        <source>Printer</source>
+      </trans-unit>
+      <trans-unit id="companion-connect-failed" datatype="html">
+        <source>No connection. Tap to retry.</source>
+      </trans-unit>
+      <trans-unit id="companion-tap-setup" datatype="html">
+        <source>Tap to connect OctoPrint</source>
+      </trans-unit>
+      <trans-unit id="companion-tap-start" datatype="html">
+        <source>Tap to start</source>
+      </trans-unit>
+      <trans-unit id="companion-power" datatype="html">
+        <source>Power</source>
+      </trans-unit>
+      <trans-unit id="companion-print-kwh" datatype="html">
+        <source>print</source>
+      </trans-unit>
+      <trans-unit id="companion-today-kwh" datatype="html">
+        <source>today</source>
+      </trans-unit>
+      <trans-unit id="companion-tap-again-off" datatype="html">
+        <source>Tap again to turn off</source>
+      </trans-unit>
+      <trans-unit id="companion-music" datatype="html">
+        <source>Music</source>
+      </trans-unit>
+      <trans-unit id="companion-deck" datatype="html">
+        <source>Deck</source>
+      </trans-unit>
+      <trans-unit id="companion-settings" datatype="html">
+        <source>Settings</source>
+      </trans-unit>
+      <trans-unit id="weather-clear" datatype="html">
+        <source>Clear</source>
+      </trans-unit>
+      <trans-unit id="weather-partly-cloudy" datatype="html">
+        <source>Partly cloudy</source>
+      </trans-unit>
+      <trans-unit id="weather-cloudy" datatype="html">
+        <source>Cloudy</source>
+      </trans-unit>
+      <trans-unit id="weather-fog" datatype="html">
+        <source>Fog</source>
+      </trans-unit>
+      <trans-unit id="weather-drizzle" datatype="html">
+        <source>Drizzle</source>
+      </trans-unit>
+      <trans-unit id="weather-rain" datatype="html">
+        <source>Rain</source>
+      </trans-unit>
+      <trans-unit id="weather-snow" datatype="html">
+        <source>Snow</source>
+      </trans-unit>
+      <trans-unit id="weather-showers" datatype="html">
+        <source>Showers</source>
+      </trans-unit>
+      <trans-unit id="weather-snow-showers" datatype="html">
+        <source>Snow showers</source>
+      </trans-unit>
+      <trans-unit id="weather-thunderstorm" datatype="html">
+        <source>Thunderstorm</source>
+      </trans-unit>
+      <trans-unit id="companion-not-set-up" datatype="html">
+        <source>Not set up</source>
+      </trans-unit>
+      <trans-unit id="connecting" datatype="html">
+        <source>connecting</source>
+        <target>verbinden</target>
+      </trans-unit>
+      <trans-unit id="companion-ready" datatype="html">
+        <source>Ready</source>
+      </trans-unit>
+      <trans-unit id="companion-printing" datatype="html">
+        <source>Printing</source>
+      </trans-unit>
+      <trans-unit id="companion-paused" datatype="html">
+        <source>Paused</source>
+      </trans-unit>
+      <trans-unit id="companion-cancelling" datatype="html">
+        <source>Cancelling</source>
+      </trans-unit>
+      <trans-unit id="companion-offline" datatype="html">
+        <source>Offline</source>
+      </trans-unit>
+      <trans-unit id="companion-power-blocked" datatype="html">
+        <source>Printer is busy</source>
+      </trans-unit>
+      <trans-unit id="companion-power-blocked-message" datatype="html">
+        <source>Stop or finish the print before turning the power off.</source>
+      </trans-unit>
+      <trans-unit id="deck-edit-hint" datatype="html">
+        <source>Edit these buttons in the web editor → Deck</source>
+      </trans-unit>
+      <trans-unit id="editor-title" datatype="html">
+        <source>Screen editor</source>
+      </trans-unit>
+      <trans-unit id="editor-open-octoprint" datatype="html">
+        <source>Open OctoPrint</source>
+      </trans-unit>
+      <trans-unit id="editor-restart-screen" datatype="html">
+        <source>Restart screen</source>
+      </trans-unit>
+      <trans-unit id="editor-tab-dashboard" datatype="html">
+        <source> Dashboard </source>
+      </trans-unit>
+      <trans-unit id="editor-tab-deck" datatype="html">
+        <source>Deck</source>
+      </trans-unit>
+      <trans-unit id="editor-tab-screen" datatype="html">
+        <source>Screen</source>
+      </trans-unit>
+      <trans-unit id="editor-tab-setup" datatype="html">
+        <source>Setup</source>
+      </trans-unit>
+      <trans-unit id="editor-tab-printer" datatype="html">
+        <source> Printer (OctoDash) </source>
+      </trans-unit>
+      <trans-unit id="editor-preview" datatype="html">
+        <source>Live preview (3.5" screen)</source>
+      </trans-unit>
+      <trans-unit id="editor-refresh" datatype="html">
+        <source> Refresh preview </source>
+      </trans-unit>
+      <trans-unit id="weather-city" datatype="html">
+        <source>Weather city (shown while the printer is off, empty = hide)</source>
+      </trans-unit>
+      <trans-unit id="editor-dashboard-hint" datatype="html">
+        <source> Big widget shows the clock and weather, and the print progress while printing. Cards: Printer and Power (power appears when a PSU Control compatible plug plugin is installed). </source>
+      </trans-unit>
+      <trans-unit id="editor-saving" datatype="html">
+        <source>Saving…</source>
+      </trans-unit>
+      <trans-unit id="editor-save" datatype="html">
+        <source>Save to screen</source>
+      </trans-unit>
+      <trans-unit id="editor-deck-hint" datatype="html">
+        <source> Shortcut buttons on the screen, 6 per page. Icons: any Font Awesome solid name (house, fire, lightbulb, fan, power-off…). G-code: commands separated by ";". HTTP: a URL, or "POST https://…" (e.g. a Home Assistant webhook). Plug: on, off or toggle. </source>
+      </trans-unit>
+      <trans-unit id="editor-deck-plug" datatype="html">
+        <source>Plug</source>
+      </trans-unit>
+      <trans-unit id="editor-deck-confirm" datatype="html">
+        <source>2 taps</source>
+      </trans-unit>
+      <trans-unit id="editor-deck-add" datatype="html">
+        <source>+ Add button</source>
+      </trans-unit>
+      <trans-unit id="editor-sleep" datatype="html">
+        <source>Night clock after 5 minutes without a tap (black flip clock + date; not while printing)</source>
+      </trans-unit>
+      <trans-unit id="editor-touch" datatype="html">
+        <source>Touch</source>
+      </trans-unit>
+      <trans-unit id="editor-touch-hint" datatype="html">
+        <source> Restarts the screen into the colour test and the 4-cross touch calibration. Do it on the screen. </source>
+      </trans-unit>
+      <trans-unit id="editor-recalibrate-button" datatype="html">
+        <source> Calibrate touch on the screen </source>
+      </trans-unit>
+      <trans-unit id="editor-logged-in-as" datatype="html">
+        <source>Logged in as</source>
+      </trans-unit>
+      <trans-unit id="editor-power-plug" datatype="html">
+        <source>Power plug</source>
+      </trans-unit>
+      <trans-unit id="editor-tapo-scan" datatype="html">
+        <source>Auto-detect</source>
+      </trans-unit>
+      <trans-unit id="editor-tapo-hint" datatype="html">
+        <source>Use your Tapo app login. In the Tapo app turn on Me → Third-Party Services → Third-Party Compatibility.</source>
+      </trans-unit>
+      <trans-unit id="editor-plug-found" datatype="html">
+        <source>Plug plugin found</source>
+      </trans-unit>
+      <trans-unit id="editor-plug-missing" datatype="html">
+        <source>Not installed: install the Tapo Plug plugin in OctoPrint's Plugin Manager</source>
+      </trans-unit>
+      <trans-unit id="editor-spotify-ok" datatype="html">
+        <source>Connected</source>
+      </trans-unit>
+      <trans-unit id="editor-spotify-reconnect" datatype="html">
+        <source>Reconnect</source>
+      </trans-unit>
+      <trans-unit id="editor-spotify-connect" datatype="html">
+        <source>Connect Spotify</source>
+      </trans-unit>
+      <trans-unit id="editor-spotify-howto" datatype="html">
+        <source>In your Spotify app (developer.spotify.com/dashboard) set the Redirect URI to exactly:</source>
+      </trans-unit>
+      <trans-unit id="editor-spotify-https" datatype="html">
+        <source>Open this editor through its Tailscale https:// address to connect Spotify.</source>
+      </trans-unit>
+      <trans-unit id="editor-tailscale-ok" datatype="html">
+        <source>Connected over HTTPS</source>
+      </trans-unit>
+      <trans-unit id="editor-tailscale" datatype="html">
+        <source>Not in use: remote access + HTTPS (run the Tailscale setup on the Pi)</source>
+      </trans-unit>
+      <trans-unit id="editor-octodash-hint" datatype="html">
+        <source> All of OctoDash's settings (plugins, custom actions, file browser…). Saving writes them to the screen. </source>
+      </trans-unit>
+      <trans-unit id="editor-open-octodash-settings" datatype="html">
+        <source> Open OctoDash settings </source>
+      </trans-unit>
+      <trans-unit id="editor-saved" datatype="html">
+        <source>Saved to the screen</source>
+      </trans-unit>
+      <trans-unit id="editor-save-failed" datatype="html">
+        <source>Could not save</source>
+      </trans-unit>
+      <trans-unit id="editor-restarted" datatype="html">
+        <source>Screen restarting</source>
+      </trans-unit>
+      <trans-unit id="editor-recalibrate" datatype="html">
+        <source>Screen restarting into the touch calibration</source>
+      </trans-unit>
+      <trans-unit id="editor-spotify-connected" datatype="html">
+        <source>Spotify connected</source>
+      </trans-unit>
+      <trans-unit id="editor-spotify-failed" datatype="html">
+        <source>Spotify login failed</source>
+      </trans-unit>
+      <trans-unit id="editor-tapo-scanning" datatype="html">
+        <source>Scanning the network (about 10 s)…</source>
+      </trans-unit>
+      <trans-unit id="editor-tapo-none" datatype="html">
+        <source>No Tapo plug found. Type its IP instead.</source>
+      </trans-unit>
+      <trans-unit id="editor-tapo-checking" datatype="html">
+        <source>Checking the plug…</source>
+      </trans-unit>
+      <trans-unit id="editor-tapo-on" datatype="html">
+        <source>Plug is ON</source>
+      </trans-unit>
+      <trans-unit id="editor-tapo-off" datatype="html">
+        <source>Plug is OFF</source>
+      </trans-unit>
+      <trans-unit id="please-wait" datatype="html">
+        <source>please wait</source>
+      </trans-unit>
+      <trans-unit id="music-not-connected" datatype="html">
+        <source>Spotify is not connected. Connect it in the web editor: Setup → Spotify.</source>
+      </trans-unit>
+      <trans-unit id="music-list-empty" datatype="html">
+        <source>Nothing here</source>
+      </trans-unit>
+      <trans-unit id="music-player" datatype="html">
+        <source>Player</source>
+      </trans-unit>
+      <trans-unit id="music-lyrics-loading" datatype="html">
+        <source>lyrics</source>
+      </trans-unit>
+      <trans-unit id="music-no-lyrics" datatype="html">
+        <source>No lyrics found for this song</source>
+      </trans-unit>
+      <trans-unit id="music-lyrics" datatype="html">
+        <source>Lyrics</source>
+      </trans-unit>
+      <trans-unit id="music-list" datatype="html">
+        <source>List</source>
+      </trans-unit>
+      <trans-unit id="music-nothing-playing" datatype="html">
+        <source>Nothing playing. Start Spotify on your phone or PC, or play on:</source>
+      </trans-unit>
+      <trans-unit id="music-playlists" datatype="html">
+        <source>Playlists</source>
+      </trans-unit>
+      <trans-unit id="music-tab-queue" datatype="html">
+        <source>Queue</source>
+      </trans-unit>
+      <trans-unit id="music-tab-playlists" datatype="html">
+        <source>Playlists</source>
+      </trans-unit>
+      <trans-unit id="music-tab-liked" datatype="html">
+        <source>Liked</source>
+      </trans-unit>
+      <trans-unit id="music-tab-recent" datatype="html">
+        <source>Recent</source>
+      </trans-unit>
+      <trans-unit id="music-reconnect" datatype="html">
+        <source>Reconnect Spotify in the web editor (Setup) to allow lists.</source>
+      </trans-unit>
+      <trans-unit id="menu-control" datatype="html">
+        <source>control</source>
+        <target>Steuerung</target>
+      </trans-unit>
       <trans-unit id="error-printer-profile" datatype="html">
         <source>Can't retrieve printer profile!</source>
         <target>Druckerprofil kann nicht abgerufen werden!</target>
@@ -265,6 +579,13 @@
         <source>done</source>
         <target>fertig</target>
       </trans-unit>
+      <trans-unit id="menu-files" datatype="html">
+        <source>files</source>
+        <target>Dateien</target>
+      </trans-unit>
+      <trans-unit id="files-empty" datatype="html">
+        <source> No files. Upload G-code in OctoPrint, or switch the printer on for its SD card. </source>
+      </trans-unit>
       <trans-unit id="files-mb-1" datatype="html">
         <source>mb</source>
         <target>mb</target>
@@ -281,17 +602,14 @@
         <source>h</source>
         <target>h</target>
       </trans-unit>
-      <trans-unit id="files-mb-3" datatype="html">
-        <source>mb</source>
-        <target>mb</target>
+      <trans-unit id="files-load" datatype="html">
+        <source>Load</source>
       </trans-unit>
-      <trans-unit id="files-h-2" datatype="html">
-        <source>h</source>
-        <target>h</target>
+      <trans-unit id="files-print" datatype="html">
+        <source>Print</source>
       </trans-unit>
-      <trans-unit id="files-g-2" datatype="html">
-        <source>g</source>
-        <target>g</target>
+      <trans-unit id="files-delete" datatype="html">
+        <source>Delete</source>
       </trans-unit>
       <trans-unit id="files-loading" datatype="html">
         <source>loading details</source>
@@ -336,6 +654,12 @@
       <trans-unit id="error-load-file" datatype="html">
         <source>Can't load file!</source>
         <target>Datei kann nicht gefunden werden!</target>
+      </trans-unit>
+      <trans-unit id="print-powering-on" datatype="html">
+        <source>Switching the printer on</source>
+      </trans-unit>
+      <trans-unit id="print-powering-on-message" datatype="html">
+        <source>The print starts as soon as the printer is ready.</source>
       </trans-unit>
       <trans-unit id="error-enclosure-temp" datatype="html">
         <source>Can't retrieve enclosure temperature!</source>
@@ -416,17 +740,9 @@
         <source>no job running...</source>
         <target>kein Job läuft...</target>
       </trans-unit>
-      <trans-unit id="menu-files" datatype="html">
-        <source>files</source>
-        <target>Dateien</target>
-      </trans-unit>
       <trans-unit id="menu-filament" datatype="html">
         <source>filament</source>
         <target>Filament</target>
-      </trans-unit>
-      <trans-unit id="menu-control" datatype="html">
-        <source>control</source>
-        <target>Steuerung</target>
       </trans-unit>
       <trans-unit id="control-cancel" datatype="html">
         <source>cancel</source>
@@ -444,9 +760,8 @@
         <source>cancel print?</source>
         <target>Druck abbrechen?</target>
       </trans-unit>
-      <trans-unit id="ui-yes" datatype="html">
-        <source>yes</source>
-        <target>ja</target>
+      <trans-unit id="cancel-print-yes" datatype="html">
+        <source>Yes, cancel</source>
       </trans-unit>
       <trans-unit id="ui-no" datatype="html">
         <source>no</source>
@@ -455,10 +770,6 @@
       <trans-unit id="print-pause" datatype="html">
         <source>print paused</source>
         <target>Druck pausiert</target>
-      </trans-unit>
-      <trans-unit id="print-restart" datatype="html">
-        <source>restart</source>
-        <target>neustarten</target>
       </trans-unit>
       <trans-unit id="print-resume" datatype="html">
         <source>resume</source>
@@ -495,6 +806,45 @@
       <trans-unit id="reset-confirmation" datatype="html">
         <source>Are you sure you want to reset the configuration?</source>
         <target>Sind Sie sicher, dass Sie die Konfiguration zurücksetzen wollen?</target>
+      </trans-unit>
+      <trans-unit id="ui-yes" datatype="html">
+        <source>yes</source>
+        <target>ja</target>
+      </trans-unit>
+      <trans-unit id="screen-test-colors" datatype="html">
+        <source>Screen test 
+          <x id="INTERPOLATION" equiv-text="{{ colorIndex + 1 }}"/>/
+          <x id="INTERPOLATION_1" equiv-text="{{ colors.length }}"/>: check for dead pixels, then tap
+        </source>
+      </trans-unit>
+      <trans-unit id="skip" datatype="html">
+        <source>Skip</source>
+      </trans-unit>
+      <trans-unit id="calibrate-tap" datatype="html">
+        <source>Tap the centre of the green cross</source>
+      </trans-unit>
+      <trans-unit id="calibrate-test" datatype="html">
+        <source>Draw on the screen. Do dots follow your finger?</source>
+      </trans-unit>
+      <trans-unit id="calibrate-revert" datatype="html">
+        <source>Reverting in 
+          <x id="INTERPOLATION" equiv-text="{{ secondsLeft }}"/> s
+        </source>
+      </trans-unit>
+      <trans-unit id="save" datatype="html">
+        <source>Save</source>
+      </trans-unit>
+      <trans-unit id="redo" datatype="html">
+        <source>Redo</source>
+      </trans-unit>
+      <trans-unit id="calibration-unavailable" datatype="html">
+        <source>Touch calibration not available</source>
+      </trans-unit>
+      <trans-unit id="retry" datatype="html">
+        <source>Retry</source>
+      </trans-unit>
+      <trans-unit id="calibration-reverted" datatype="html">
+        <source>Not confirmed, calibration reverted.</source>
       </trans-unit>
       <trans-unit id="settings" datatype="html">
         <source>settings</source>
@@ -808,6 +1158,9 @@
         <source> Special Thanks to /u/Slateclean for supplying touchscreens, so development can continue! </source>
         <target> Besonderen Dank an /u/Slateclean für die Bereitstellung von Touchscreens, damit die Entwicklung weitergehen kann! </target>
       </trans-unit>
+      <trans-unit id="screen-test" datatype="html">
+        <source>Screen test &amp; touch calibration</source>
+      </trans-unit>
       <trans-unit id="reset-config" datatype="html">
         <source>Reset Config</source>
         <target>Konfig zurücksetzen</target>
@@ -1101,22 +1454,6 @@
       <trans-unit id="ui-next" datatype="html">
         <source>next</source>
         <target>nächster Schritt</target>
-      </trans-unit>
-      <trans-unit id="octoprint-sleeping" datatype="html">
-        <source>Shhh! OctoDash is sleeping.</source>
-        <target>Shhh! OctoDash schläft.</target>
-      </trans-unit>
-      <trans-unit id="octoprint-sleeping-message" datatype="html">
-        <source>Tap the screen to wake me up again.</source>
-        <target>Berühre den Bildschirm zum aufwachen.</target>
-      </trans-unit>
-      <trans-unit id="connecting" datatype="html">
-        <source>connecting</source>
-        <target>verbinden</target>
-      </trans-unit>
-      <trans-unit id="connection-failed" datatype="html">
-        <source> Connection can't be established. Press screen to try again. </source>
-        <target> Verbindung kann nicht hergestellt werden. Berühre den Bildschirm um es erneut zu versuchen. </target>
       </trans-unit>
       <trans-unit id="downloading-update" datatype="html">
         <source>downloading update</source>
