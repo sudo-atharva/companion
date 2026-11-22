@@ -1,13 +1,19 @@
 {
   "name": "octodash",
-  "description": "OctoDash is a simple, but beautiful dashboard for Octoprint.",
+  "description": "Companion: a CarPlay-style home screen for your 3D printer's touchscreen (built on OctoDash).",
   "version": "2.8.0",
   "license": "Apache 2.0",
-  "homepage": "https://github.com/UnchartedBull/OctoDash",
+  "homepage": "https://github.com/sudo-atharva/companion",
   "author": {
-    "name": "Timon Gaebelein",
-    "email": "timon.gaebelein@icloud.com"
+    "name": "sudo-atharva",
+    "url": "https://github.com/sudo-atharva"
   },
+  "contributors": [
+    {
+      "name": "Timon Gaebelein (OctoDash)",
+      "email": "timon.gaebelein@icloud.com"
+    }
+  ],
   "main": "main.js",
   "type": "module",
   "browserslist": [

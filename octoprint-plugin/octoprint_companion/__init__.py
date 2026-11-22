@@ -158,6 +158,9 @@ class CompanionPlugin(octoprint.plugin.BlueprintPlugin, octoprint.plugin.SimpleA
 
 
 __plugin_name__ = "Companion"
+__plugin_author__ = "sudo-atharva"
+__plugin_url__ = "https://github.com/sudo-atharva/companion"
+__plugin_license__ = "Apache-2.0"
 __plugin_description__ = "Companion: control panel for the Companion touchscreen (dashboard, dock, deck, music, setup)"
 __plugin_pythoncompat__ = ">=3.9,<4"
 __plugin_implementation__ = CompanionPlugin()

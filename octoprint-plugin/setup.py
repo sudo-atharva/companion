@@ -4,6 +4,8 @@ setuptools.setup(
     name="OctoPrint-Companion",
     version="0.1.0",
     description="Companion web app for OctoPrint (same UI as the Companion touchscreen)",
+    author="sudo-atharva",
+    url="https://github.com/sudo-atharva/companion",
     license="Apache-2.0",  # contains a build of OctoDash (Apache 2.0)
     packages=["octoprint_companion"],
     include_package_data=True,  # static/web/** via MANIFEST.in

@@ -2,6 +2,8 @@
 
 **A CarPlay-style home screen for your 3D printer's touchscreen.**
 
+Made by **Atharva** ([@sudo-atharva](https://github.com/sudo-atharva)).
+
 ## Why
 
 A printer touchscreen (OctoDash, the printer's own display) only does something while you print. The rest of the time it sits there showing an error or a sleeping logo. And even while printing, most of the time there's nothing to do on it.
@@ -73,4 +75,4 @@ See **[SETUP.md](SETUP.md)**: build, Pi install script (incl. 3.5" SPI screen), 
 
 ## Credits
 
-Companion is built on [OctoDash](https://github.com/UnchartedBull/OctoDash) by UnchartedBull and contributors (Apache 2.0, see `LICENSE.md`). The original README is in [README.octodash.md](README.octodash.md).
+Companion is made by Atharva ([@sudo-atharva](https://github.com/sudo-atharva)) and built on [OctoDash](https://github.com/UnchartedBull/OctoDash) by UnchartedBull and contributors (Apache 2.0, see `LICENSE.md`). The original README is in [README.octodash.md](README.octodash.md).
