@@ -26,7 +26,7 @@ echo "== Packages (X server, Electron libraries, xinput for touch calibration)"
 sudo apt-get update -qq
 sudo apt-get install -y -qq libgtk-3-0 libnotify4 libnss3 libxss1 libxtst6 xdg-utils libatspi2.0-0 libuuid1 \
   libsecret-1-0 xserver-xorg xserver-xorg-video-fbdev xserver-xorg-input-libinput ratpoison x11-xserver-utils \
-  xinput xinit bc desktop-file-utils libavahi-compat-libdnssd1
+  xinput xinit bc desktop-file-utils libavahi-compat-libdnssd1 fonts-noto-core  # Noto: lyrics in Hindi, Arabic, …
 
 echo "== OctoDash $OCTODASH_VERSION + the Companion build"
 case "$(dpkg --print-architecture)" in
