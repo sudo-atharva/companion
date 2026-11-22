@@ -1,1 +1,2 @@
 recursive-include octoprint_companion/static *
+recursive-include octoprint_companion/templates *
