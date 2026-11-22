@@ -13,4 +13,10 @@
   color: #fff;
   font-size: 5vw;
   overflow: hidden;
+
+  // Printer main screen: while printing OctoDash lays an invisible tap area (z-index 20) over everything,
+  // which would swallow taps on the home button
+  &--top {
+    z-index: 25;
+  }
 }
