@@ -8,6 +8,19 @@ A printer touchscreen (OctoDash, the printer's own display) only does something 
 
 So I made it do something. Companion turns that little screen next to the printer into a companion: a clock and weather, your music, your power plug, your own shortcut buttons. The printer controls (OctoDash) are still there, as one app among others.
 
+## Screenshots
+
+All taken on the real 3.5" screen (480×320) during a print.
+
+|                                                                                                                                   |                                                                                                                               |
+| --------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| ![Boot animation](docs/screenshots/boot.png)<br>**Boot:** the gear turns into the "C"                                             | ![Dashboard while printing](docs/screenshots/dashboard.png)<br>**Dashboard:** print progress, live watts and kWh of the print |
+| ![Music](docs/screenshots/music.png)<br>**Music:** Spotify remote, album cover as live poster                                     | ![Music library](docs/screenshots/music-library.png)<br>**Library:** queue, playlists, liked, recent (names blurred)          |
+| ![Deck](docs/screenshots/deck.png)<br>**Deck:** your own shortcut buttons                                                         | ![Settings](docs/screenshots/settings.png)<br>**Settings:** night clock, touch calibration, web editor                        |
+| ![Printer while printing](docs/screenshots/printer.png)<br>**Printer:** OctoDash, restyled                                        | ![Print controls](docs/screenshots/print-controls.png)<br>**Print controls:** cancel, pause, adjust                           |
+| ![Control](docs/screenshots/control.png)<br>**Control:** jog X/Y/Z/E, step sizes, temperatures                                    | ![Files](docs/screenshots/files.png)<br>**Files:** slicer thumbnails, ▲ ▼ instead of swiping                                  |
+| ![File details](docs/screenshots/file-details.png)<br>**File details:** Load, Print (works with the printer off), Delete (2 taps) |                                                                                                                               |
+
 ## What it does
 
 On a 3.5" touchscreen (480×320), tap-only. No swipes; pages turn with ◀ ▶ buttons so it works reliably on cheap resistive touch.
