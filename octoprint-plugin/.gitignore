@@ -1,0 +1,4 @@
+octoprint_companion/static/web/
+__pycache__/
+*.egg-info/
+build/
