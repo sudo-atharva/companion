@@ -31,6 +31,10 @@ On a 3.5" touchscreen (480×320), tap-only. No swipes; pages turn with ◀ ▶ b
   - Spotify login and Tapo plug setup.
   - Over Tailscale it's the same address from anywhere, with HTTPS.
 
+## Setup
+
+See **[SETUP.md](SETUP.md)**: build, Pi install script (incl. 3.5" SPI screen), OctoPrint plugin, power plug, Tailscale, Spotify, thumbnails.
+
 ## Parts
 
 | Part                                                                                   | What                                                                                                 |

@@ -146,7 +146,7 @@
                 <input
                   class="editor__input"
                   [(ngModel)]="tapo.host"
-                  placeholder="Plug IP, e.g. 192.168.31.50"
+                  placeholder="Plug IP, e.g. 192.168.1.50"
                   aria-label="Plug IP" />
                 <button class="editor__button" [disabled]="!tapo.username || !tapo.password" (click)="scanTapo()">
                   <ng-container i18n="@@editor-tapo-scan">Auto-detect</ng-container>
